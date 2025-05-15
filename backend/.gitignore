@@ -1,0 +1,5 @@
+.env
+scraped_data
+.vscode
+.venv
+faiss_index
