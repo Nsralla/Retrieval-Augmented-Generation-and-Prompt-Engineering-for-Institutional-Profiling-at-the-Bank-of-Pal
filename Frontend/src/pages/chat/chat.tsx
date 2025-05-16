@@ -1,76 +1,149 @@
-// pages/chat/Chat.tsx
-import React, { useState, useRef } from "react";
+// src/pages/chat/Chat.tsx
+
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
 import { ChatInput } from "@/components/custom/chatinput";
 import { PreviewMessage, ThinkingMessage } from "@/components/custom/message";
 import { useScrollToBottom } from "@/components/custom/use-scroll-to-bottom";
-import { message } from "@/interfaces/interfaces";
 import { Overview } from "@/components/custom/overview";
 import { Header } from "@/components/custom/header";
 import { Sidebar } from "@/components/custom/sidebar";
-import { v4 as uuidv4 } from "uuid";
+import { BASE_URL } from "@/api";
+import { message as IMessage } from "@/interfaces/interfaces";
+import { isTokenExpired } from "@/utils/auth";
 
-const socket = new WebSocket("ws://localhost:8090"); // change to your websocket endpoint
+// Backend now returns both user and bot messages in one call:
+interface MessageResponse {
+  id: number;
+  chat_id: number;
+  sender: "user" | "bot";
+  content: string;
+}
 
 export function Chat() {
+  const { chatId } = useParams<{ chatId: string }>();
+  const navigate = useNavigate();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const toggleSidebar = () => setSidebarOpen(o => !o);
+  const toggleSidebar = () => setSidebarOpen((o) => !o);
 
   const [messagesContainerRef, messagesEndRef] = useScrollToBottom<HTMLDivElement>();
-  const [messages, setMessages] = useState<message[]>([]);
-  const [question, setQuestion] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const messageHandlerRef = useRef<((e: MessageEvent) => void) | null>(null);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [question, setQuestion] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const cleanupMessageHandler = () => {
-    if (messageHandlerRef.current) {
-      socket.removeEventListener("message", messageHandlerRef.current);
-      messageHandlerRef.current = null;
+  // 1) Load history on mount / chatId change
+  useEffect(() => {
+    if (!chatId) return navigate("/");
+    (async () => {
+      setIsLoading(true);
+      try {
+        const token = localStorage.getItem("token");
+        if (!token || isTokenExpired(token)) return navigate("/login");
+
+        const resp = await axios.get<MessageResponse[]>(
+          `${BASE_URL}/chats/${chatId}/messages`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setMessages(
+          resp.data.map((m) => ({
+            id: m.id.toString(),
+            role: m.sender === "bot" ? "assistant" : "user",
+            content: m.content,
+          }))
+        );
+      } catch {
+        navigate("/");
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [chatId, navigate]);
+
+  // 2) Send a new question
+  const handleSubmit = async (text?: string) => {
+    const userText = (text ?? question).trim();
+    if (!userText || !chatId) return;
+
+    // Echo user immediately
+    const userId = uuidv4();
+    setMessages((prev) => [
+      ...prev,
+      { id: userId, role: "user", content: userText },
+    ]);
+    setQuestion("");
+
+    // Insert thinking placeholder
+    const thinkingId = uuidv4();
+    setMessages((prev) => [
+      ...prev,
+      { id: thinkingId, role: "assistant", content: "" },
+    ]);
+
+    setIsLoading(true);
+    try {
+      const token = localStorage.getItem("token")!;
+      if (!token || isTokenExpired(token)) {
+        navigate("/login");
+        return;
+      }
+
+      // Call unified endpoint
+      const resp = await axios.post<MessageResponse[]>(
+        `${BASE_URL}/messages/`,
+        { chat_id: parseInt(chatId, 10), user_message: userText },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // Extract only the bot's reply
+      const bot = resp.data.find((m) => m.sender === "bot");
+      if (bot) {
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === thinkingId
+              ? { id: thinkingId, role: "assistant", content: bot.content }
+              : m
+          )
+        );
+      } else {
+        // fallback error
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === thinkingId
+              ? {
+                  id: thinkingId,
+                  role: "assistant",
+                  content: "Sorry, no response received.",
+                }
+              : m
+          )
+        );
+      }
+    } catch (err) {
+      console.error("Chat error:", err);
+      // Replace placeholder with error text
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === thinkingId
+            ? {
+                id: thinkingId,
+                role: "assistant",
+                content: "Sorry, something went wrong.",
+              }
+            : m
+        )
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  async function handleSubmit(text?: string) {
-    if (socket.readyState !== WebSocket.OPEN || isLoading) return;
-    const messageText = text || question;
-    setIsLoading(true);
-    cleanupMessageHandler();
-
-    const traceId = uuidv4();
-    setMessages(prev => [...prev, { content: messageText, role: "user", id: traceId }]);
-    socket.send(messageText);
-    setQuestion("");
-
-    try {
-      const handler = (event: MessageEvent) => {
-        setIsLoading(false);
-        if (event.data.includes("[END]")) {
-          cleanupMessageHandler();
-          return;
-        }
-        setMessages(prev => {
-          const last = prev[prev.length - 1];
-          const newContent = last.role === "assistant"
-            ? last.content + event.data
-            : event.data;
-          const newMsg = { content: newContent, role: "assistant", id: traceId };
-          return last.role === "assistant"
-            ? [...prev.slice(0, -1), newMsg]
-            : [...prev, newMsg];
-        });
-      };
-      messageHandlerRef.current = handler;
-      socket.addEventListener("message", handler);
-    } catch (err) {
-      console.error("WebSocket error:", err);
-      setIsLoading(false);
-    }
-  }
-
   return (
     <div className="flex h-screen bg-background overflow-hidden">
-      {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={toggleSidebar} />
-
-      {/* Overlay */}
       {sidebarOpen && (
         <div
           onClick={toggleSidebar}
@@ -78,24 +151,24 @@ export function Chat() {
         />
       )}
 
-      {/* Main Content */}
       <div className="flex flex-col flex-1 overflow-hidden">
-        {/* Header with menu callback */}
         <Header onMenuClick={toggleSidebar} />
 
         <div
           ref={messagesContainerRef}
-          className="flex-1 overflow-y-auto p-4 space-y-4"
+          className="flex-1 overflow-y-auto p-4 space-y-4 bg-background"
         >
-          {messages.length === 0 && <Overview />}
-          {messages.map(msg => (
+          {messages.length === 0 && !isLoading && <Overview />}
+
+          {messages.map((msg) => (
             <PreviewMessage key={msg.id} message={msg} />
           ))}
+
           {isLoading && <ThinkingMessage />}
+
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Section: centered with max width */}
         <div className="px-4 py-3 bg-background">
           <div className="w-full max-w-3xl mx-auto">
             <ChatInput

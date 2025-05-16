@@ -59,6 +59,7 @@ export const ThinkingMessage = () => {
       >
         <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
           <SparklesIcon size={14} />
+          <span className="italic text-gray-500">Thinking...</span>
         </div>
       </div>
     </motion.div>

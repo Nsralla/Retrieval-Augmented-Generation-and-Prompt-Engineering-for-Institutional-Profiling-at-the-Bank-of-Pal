@@ -10,7 +10,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface ChatItem {
   id: string;
-  name: string;
   active: boolean;
 }
 
@@ -22,13 +21,15 @@ export function Sidebar({
   onClose: () => void;
 }) {
   const navigate = useNavigate();
+
   const [chats, setChats] = useState<ChatItem[]>([]);
   const [activeChat, setActiveChat] = useState<string | null>(null);
-  const [loadingChats, setLoadingChats] = useState(true);
+
+  const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  // Fetch existing chats
+  // 1) Fetch existing chats once
   useEffect(() => {
     (async () => {
       const token = localStorage.getItem('token');
@@ -37,22 +38,17 @@ export function Sidebar({
           `${BASE_URL}/chats/`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setChats(
-          resp.data.map((c, i) => ({
-            id: c.id,
-            name: `Chat ${i + 1}`,
-            active: false,
-          }))
-        );
+        // Only store id & active flag; name is computed in render
+        setChats(resp.data.map((c) => ({ id: c.id, active: false })));
       } catch (err) {
         console.error('Error fetching chats', err);
       } finally {
-        setLoadingChats(false);
+        setLoading(false);
       }
     })();
   }, []);
 
-  // Create new chat
+  // 2) Create new chat
   const createNewChat = async () => {
     setCreating(true);
     try {
@@ -62,10 +58,7 @@ export function Sidebar({
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setChats((prev) => [
-        ...prev,
-        { id: resp.data.id, name: `Chat ${prev.length + 1}`, active: false },
-      ]);
+      setChats((prev) => [...prev, { id: resp.data.id, active: false }]);
     } catch (err) {
       console.error('Error creating chat', err);
     } finally {
@@ -73,17 +66,30 @@ export function Sidebar({
     }
   };
 
-  // Delete chat
+  // 3) Delete chat
   const handleDeleteChat = async (e: React.MouseEvent, chatId: string) => {
     e.stopPropagation();
     if (!window.confirm('Are you sure you want to delete this chat?')) return;
+
     setDeletingId(chatId);
     try {
       const token = localStorage.getItem('token');
       await axios.delete(`${BASE_URL}/chats/${chatId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setChats((prev) => prev.filter((c) => c.id !== chatId));
+
+       setChats((prev) => {
+        const updated = prev.filter((c) => c.id !== chatId);
+
+        // if that was the last chat, redirect & close
+        if (updated.length === 0) {
+          navigate('/');   // or wherever you want to send them
+          onClose();
+        }
+
+        return updated;
+      });
+
       if (activeChat === chatId) setActiveChat(null);
     } catch (err) {
       console.error('Error deleting chat', err);
@@ -92,7 +98,7 @@ export function Sidebar({
     }
   };
 
-  // **Navigate** to the chat URL when clicked
+  // 4) Select & navigate
   const selectChat = (chatId: string) => {
     setActiveChat(chatId);
     setChats((prev) =>
@@ -110,6 +116,7 @@ export function Sidebar({
       )}
     >
       <div className="flex flex-col h-full p-4">
+        {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Chats</h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -117,6 +124,7 @@ export function Sidebar({
           </Button>
         </div>
 
+        {/* New Chat */}
         <Button
           onClick={createNewChat}
           disabled={creating}
@@ -127,37 +135,43 @@ export function Sidebar({
           {creating ? 'Creating…' : 'New Chat'}
         </Button>
 
+        {/* Chat List */}
         <ScrollArea className="flex-1">
-          {loadingChats ? (
+          {loading ? (
             <p className="text-center text-sm text-gray-500">Loading chats…</p>
           ) : (
             <div className="space-y-2">
-              {chats.map((chat) => (
-                <div key={chat.id} className="group relative">
-                  <Button
-                    variant={chat.active ? 'secondary' : 'ghost'}
-                    className="w-full justify-start gap-2 pr-8"
-                    onClick={() => selectChat(chat.id)}
-                  >
-                    <MessageCircle className="h-4 w-4" />
-                    {chat.name}
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    disabled={deletingId === chat.id}
-                    className="absolute right-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"
-                    onClick={(e) => handleDeleteChat(e, chat.id)}
-                  >
-                    {deletingId === chat.id ? '…' : <Trash2 className="h-4 w-4 text-primary" />}
-                  </Button>
-                </div>
-              ))}
               {chats.length === 0 && (
                 <p className="text-center text-sm text-gray-500">
                   No chats yet. Create one above.
                 </p>
               )}
+              {chats.map((chat, idx) => {
+                const displayName = `Chat ${idx + 1}`;
+                return (
+                  <div key={chat.id} className="group relative">
+                    <Button
+                      variant={chat.active ? 'secondary' : 'ghost'}
+                      className="w-full justify-start gap-2 pr-8"
+                      onClick={() => selectChat(chat.id)}
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      {displayName}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      disabled={deletingId === chat.id}
+                      className="absolute right-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"
+                      onClick={(e) => handleDeleteChat(e, chat.id)}
+                    >
+                      {deletingId === chat.id ? '…' : (
+                        <Trash2 className="h-4 w-4 text-primary" />
+                      )}
+                    </Button>
+                  </div>
+                );
+              })}
             </div>
           )}
         </ScrollArea>

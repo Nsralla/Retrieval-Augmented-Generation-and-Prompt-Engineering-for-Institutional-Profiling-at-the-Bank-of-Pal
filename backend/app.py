@@ -203,40 +203,87 @@ def get_messages(chat_id: int, db: Session = Depends(get_db), current_user: User
     return db.query(Message).filter(Message.chat_id == chat_id).all()
 
 @app.post("/messages/", response_model=List[MessageResponse])
-def send_message(message: MessageInput, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def send_message(
+    message: MessageInput,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    # 1) find chat & authorize
     chat = db.query(Chat).filter(Chat.id == message.chat_id).first()
-    if not chat: raise HTTPException(status_code=404, detail="Chat not found")
-    if chat.user_id != current_user.id and not current_user.is_admin: raise HTTPException(status_code=403, detail="Not authorized")
-    user_msg = Message(chat_id=message.chat_id, sender="user", content=message.user_message, timestamp=datetime.utcnow())
-    db.add(user_msg)
-    bot_msg = Message(chat_id=message.chat_id, sender="bot", content="(this is a placeholder bot response)", timestamp=datetime.utcnow())
-    db.add(bot_msg)
-    db.commit()
-    return [user_msg, bot_msg]
+    if not chat:
+        raise HTTPException(status_code=404, detail="Chat not found")
+    if chat.user_id != current_user.id and not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Not authorized")
 
-@app.post("/ask", response_model=AskResponse)
-def ask_user(req: AskRequest, current_user: User = Depends(get_current_user)):
-    context = pipeline.handleQuery(req.question)
+    # 2) persist user message
+    user_msg = Message(
+        chat_id=message.chat_id,
+        sender="user",
+        content=message.user_message,
+        timestamp=datetime.utcnow(),
+    )
+    db.add(user_msg)
+
+    # 3) get actual AI answer (merge /ask logic here)
+    #    first, retrieve context via RAG
+    context = pipeline.handleQuery(message.user_message)
     if not context:
         raise HTTPException(status_code=404, detail="No relevant context found")
 
-    
+    #    then call remote answer service
     resp = requests.post(
         "http://176.119.254.185:7111/answer",
-        json={
-            "question": req.question,
-            "document": context
-        },
-        timeout=10
+        json={"question": message.user_message, "document": context},
+        timeout=10,
     )
     if resp.status_code != 200:
         raise HTTPException(
             status_code=resp.status_code,
-            detail={"error": "Remote answer service failed", "info": resp.text}
+            detail={"error": "Remote answer failed", "info": resp.text},
         )
-
     data = resp.json()
     if "answer" not in data:
         raise HTTPException(500, detail="Malformed response from answer service")
 
-    return AskResponse(answer=data["answer"])
+    # 4) persist assistant message
+    bot_msg = Message(
+        chat_id=message.chat_id,
+        sender="bot",
+        content=data["answer"],
+        timestamp=datetime.utcnow(),
+    )
+    db.add(bot_msg)
+
+    db.commit()
+    db.refresh(user_msg)
+    db.refresh(bot_msg)
+
+    # 5) return both
+    return [user_msg, bot_msg]
+
+# @app.post("/ask", response_model=AskResponse)
+# def ask_user(req: AskRequest, current_user: User = Depends(get_current_user)):
+#     context = pipeline.handleQuery(req.question)
+#     if not context:
+#         raise HTTPException(status_code=404, detail="No relevant context found")
+
+    
+#     resp = requests.post(
+#         "http://176.119.254.185:7111/answer",
+#         json={
+#             "question": req.question,
+#             "document": context
+#         },
+#         timeout=10
+#     )
+#     if resp.status_code != 200:
+#         raise HTTPException(
+#             status_code=resp.status_code,
+#             detail={"error": "Remote answer service failed", "info": resp.text}
+#         )
+
+#     data = resp.json()
+#     if "answer" not in data:
+#         raise HTTPException(500, detail="Malformed response from answer service")
+
+#     return AskResponse(answer=data["answer"])
