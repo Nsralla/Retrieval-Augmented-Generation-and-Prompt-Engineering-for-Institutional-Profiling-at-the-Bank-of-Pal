@@ -1,22 +1,48 @@
-import React from 'react';
+// src/components/Navbar.tsx
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useTheme } from '@/context/ThemeContext';
-
+import { BASE_URL } from '@/api';
+import { isTokenExpired } from '@/utils/auth';
 const Navbar: React.FC = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   const navigate = useNavigate();
-
-  // determine auth state from token
   const token = localStorage.getItem('token');
   const isAuthenticated = Boolean(token);
 
-  // invert logo colors on dark background
-  const logoStyle = isDarkMode ? { filter: 'brightness(0) invert(1)' } : undefined;
+  const [creating, setCreating] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/login');
   };
+
+  const handleStartChat = async () => {
+    if (!isAuthenticated || isTokenExpired(token)) {
+      navigate('/login');
+      return;
+    }
+
+    setCreating(true);
+    try {
+      const resp = await axios.post<{ id: string }>(
+        `${BASE_URL}/chats/`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      navigate(`/chat/${resp.data.id}`);
+    } catch (err) {
+      console.error('Failed to start chat', err);
+      // optionally show a toast or set an error state here
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const logoStyle = isDarkMode
+    ? { filter: 'brightness(0) invert(1)' }
+    : undefined;
 
   return (
     <nav className="sticky top-0 z-50 w-full px-8 py-4 flex items-center justify-between shadow-lg bg-blue-200 dark:bg-gray-800">
@@ -35,7 +61,7 @@ const Navbar: React.FC = () => {
 
       {/* Actions */}
       <div className="flex items-center space-x-4">
-        {!isAuthenticated && (
+        {!isAuthenticated ? (
           <>
             <Link to="/login" className="px-4 py-2 text-white hover:text-gray-200">
               Login
@@ -47,14 +73,9 @@ const Navbar: React.FC = () => {
               Sign Up
             </Link>
           </>
-        )}
-
-        {isAuthenticated && (
+        ) : (
           <>
-            <Link
-              to="/profile"
-              className="px-4 py-2 text-white hover:text-gray-200"
-            >
+            <Link to="/profile" className="px-4 py-2 text-white hover:text-gray-200">
               Profile
             </Link>
             <button
@@ -66,6 +87,7 @@ const Navbar: React.FC = () => {
           </>
         )}
 
+        {/* Theme toggle */}
         <button
           onClick={toggleTheme}
           className="p-2 rounded-full hover:bg-blue-700 text-white transition"
@@ -74,12 +96,22 @@ const Navbar: React.FC = () => {
           {isDarkMode ? '☀️' : '🌙'}
         </button>
 
-        <Link
-          to="/chat"
-          className="px-4 py-2 bg-yellow-400 text-blue-800 font-semibold rounded-lg hover:bg-yellow-300 transition"
-        >
-          Start Chatting
-        </Link>
+        {/* Start Chatting */}
+        {isAuthenticated && (
+            <button
+                      onClick={handleStartChat}
+                      disabled={creating}
+                      className={`
+                        px-4 py-2 font-semibold rounded-lg transition 
+                        ${creating
+                          ? 'bg-yellow-200 cursor-not-allowed text-gray-500'
+                          : 'bg-yellow-400 hover:bg-yellow-300 text-blue-800'}
+                      `}
+                    >
+                      {creating ? 'Starting…' : 'Start Chatting'}
+                    </button>
+        )}
+        
       </div>
     </nav>
   );

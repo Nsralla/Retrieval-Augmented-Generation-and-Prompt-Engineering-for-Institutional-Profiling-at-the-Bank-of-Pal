@@ -1,6 +1,7 @@
 // src/components/Sidebar.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '@/api';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, MessageCircle, X, Trash2 } from 'lucide-react';
@@ -13,14 +14,21 @@ interface ChatItem {
   active: boolean;
 }
 
-export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+export function Sidebar({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  const navigate = useNavigate();
   const [chats, setChats] = useState<ChatItem[]>([]);
   const [activeChat, setActiveChat] = useState<string | null>(null);
   const [loadingChats, setLoadingChats] = useState(true);
   const [creating, setCreating] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  // 1) Fetch on mount
+  // Fetch existing chats
   useEffect(() => {
     (async () => {
       const token = localStorage.getItem('token');
@@ -44,7 +52,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
     })();
   }, []);
 
-  // 2) Create new
+  // Create new chat
   const createNewChat = async () => {
     setCreating(true);
     try {
@@ -65,7 +73,7 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
     }
   };
 
-  // 3) Delete chat
+  // Delete chat
   const handleDeleteChat = async (e: React.MouseEvent, chatId: string) => {
     e.stopPropagation();
     if (!window.confirm('Are you sure you want to delete this chat?')) return;
@@ -84,11 +92,14 @@ export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => v
     }
   };
 
+  // **Navigate** to the chat URL when clicked
   const selectChat = (chatId: string) => {
     setActiveChat(chatId);
     setChats((prev) =>
       prev.map((c) => ({ ...c, active: c.id === chatId }))
     );
+    navigate(`/chat/${chatId}`);
+    onClose();
   };
 
   return (
