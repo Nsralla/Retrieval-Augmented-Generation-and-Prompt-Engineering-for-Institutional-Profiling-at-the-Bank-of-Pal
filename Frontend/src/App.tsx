@@ -5,6 +5,7 @@ import { ThemeProvider } from './context/ThemeContext'
 import  Home  from './pages/home/home'
 import Login from './pages/login/login';
 import Signup from './pages/signup/signup';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Home/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<Signup/>}/>
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </Router>

@@ -17,7 +17,7 @@ class UserResponse(BaseModel):
     is_admin: bool
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # --- Chats ---
 class ChatResponse(BaseModel):
@@ -26,7 +26,7 @@ class ChatResponse(BaseModel):
     created_at: datetime
 
     class Config:
-        orm_mode = True
+        form_attributes = True
 
 # --- Messages ---
 class MessageCreate(BaseModel):
@@ -43,7 +43,7 @@ class MessageResponse(BaseModel):
     timestamp: datetime
 
     class Config:
-        orm_mode = True
+        form_attributes = True
 
 class MessageInput(BaseModel):
     chat_id: int
