@@ -9,7 +9,7 @@ from collections import Counter
 
 # --- Configuration ---
 BASE_URL    = "https://www.bankofpalestine.com/"
-MAX_PAGES   = 250  # Max pages to crawl
+MAX_PAGES   = 20  # Max pages to crawl
 OUTPUT_DIR  = "scraped_data"
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "bop_website_cleaned.json")
 

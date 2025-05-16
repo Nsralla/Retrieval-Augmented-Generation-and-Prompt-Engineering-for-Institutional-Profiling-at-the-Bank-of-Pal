@@ -6,8 +6,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage
-import openai
-from dotenv import load_dotenv
+
 
 
 logging.basicConfig(
@@ -18,13 +17,7 @@ logging.basicConfig(
 logger = logging.getLogger("QueryPipeline")
 
 
-dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
-if not os.path.exists(dotenv_path):
-    logger.warning(".env file not found.")
-load_dotenv(dotenv_path)
-openai.api_key = os.getenv("OPENAI_API_KEY")
-if not openai.api_key:
-    raise RuntimeError("OPENAI_API_KEY is not set in the .env file")
+
 
 # ------------------------------------------------------------------------------
 # Configure logging for debugging
@@ -35,7 +28,7 @@ class QueryPipeline:
     def __init__(self,
                  index_dir: str ="faiss_index",
                  embedder_model: str = "intfloat/multilingual-e5-base",
-                 openai_model: str = "gpt-4o",
+
                  top_k: int = 3):
         """
         Initialize the pipeline components:
