@@ -17,12 +17,12 @@ const suggestedActions = [
     {
         title: 'ما هي الخدمات الإلكترونية التي يمكنني الحصول عليها؟',
         label: '',
-        action: 'How is the weather in Vienna today?',
+        action: 'ما هي الخدمات الإلكترونية التي يمكنني الحصول عليها',
     },
     {
         title: 'ما هي العملات التي يمكنني ايداع أموالي في الحساب الجاري؟',
         label: '',
-        action: 'Tell me an interesting fact about pandas',
+        action: 'ما هي العملات التي يمكنني ايداع أموالي في الحساب الجاري',
     },
 ];
 
