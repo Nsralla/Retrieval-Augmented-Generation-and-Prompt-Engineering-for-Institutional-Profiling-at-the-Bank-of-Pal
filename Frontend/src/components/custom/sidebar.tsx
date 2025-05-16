@@ -1,52 +1,101 @@
-import { useState } from 'react';
+// src/components/Sidebar.tsx
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { BASE_URL } from '@/api';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, MessageCircle, X, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onDeleteChat?: (chatId: string) => void;
+interface ChatItem {
+  id: string;
+  name: string;
+  active: boolean;
 }
 
-export function Sidebar({ isOpen, onClose, onDeleteChat }: SidebarProps) {
-  const [chats, setChats] = useState<{ id: string; name: string; active: boolean }[]>([]);
+export function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [chats, setChats] = useState<ChatItem[]>([]);
   const [activeChat, setActiveChat] = useState<string | null>(null);
+  const [loadingChats, setLoadingChats] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
-  const createNewChat = () => {
-    const newChat = {
-      id: Date.now().toString(),
-      name: `Chat ${chats.length + 1}`,
-      active: false,
-    };
-    setChats([...chats, newChat]);
+  // 1) Fetch on mount
+  useEffect(() => {
+    (async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const resp = await axios.get<{ id: string; created_at: string }[]>(
+          `${BASE_URL}/chats/`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+        setChats(
+          resp.data.map((c, i) => ({
+            id: c.id,
+            name: `Chat ${i + 1}`,
+            active: false,
+          }))
+        );
+      } catch (err) {
+        console.error('Error fetching chats', err);
+      } finally {
+        setLoadingChats(false);
+      }
+    })();
+  }, []);
+
+  // 2) Create new
+  const createNewChat = async () => {
+    setCreating(true);
+    try {
+      const token = localStorage.getItem('token');
+      const resp = await axios.post<{ id: string }>(
+        `${BASE_URL}/chats/`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setChats((prev) => [
+        ...prev,
+        { id: resp.data.id, name: `Chat ${prev.length + 1}`, active: false },
+      ]);
+    } catch (err) {
+      console.error('Error creating chat', err);
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  // 3) Delete chat
+  const handleDeleteChat = async (e: React.MouseEvent, chatId: string) => {
+    e.stopPropagation();
+    if (!window.confirm('Are you sure you want to delete this chat?')) return;
+    setDeletingId(chatId);
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`${BASE_URL}/chats/${chatId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setChats((prev) => prev.filter((c) => c.id !== chatId));
+      if (activeChat === chatId) setActiveChat(null);
+    } catch (err) {
+      console.error('Error deleting chat', err);
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const selectChat = (chatId: string) => {
     setActiveChat(chatId);
-    setChats(chats.map(chat => ({
-      ...chat,
-      active: chat.id === chatId,
-    })));
-  };
-
-  const handleDeleteChat = (e: React.MouseEvent, chatId: string) => {
-    e.stopPropagation();
-    if (onDeleteChat) {
-      onDeleteChat(chatId);
-      setChats(chats.filter(chat => chat.id !== chatId));
-      if (activeChat === chatId) {
-        setActiveChat(null);
-      }
-    }
+    setChats((prev) =>
+      prev.map((c) => ({ ...c, active: c.id === chatId }))
+    );
   };
 
   return (
     <div
       className={cn(
-        "fixed inset-y-0 left-0 w-64 bg-background border-r transform transition-transform duration-200 ease-in-out z-50",
-        isOpen ? "translate-x-0" : "-translate-x-full"
+        'fixed inset-y-0 left-0 w-64 bg-background border-r transform transition-transform duration-200 ease-in-out z-50',
+        isOpen ? 'translate-x-0' : '-translate-x-full'
       )}
     >
       <div className="flex flex-col h-full p-4">
@@ -59,39 +108,47 @@ export function Sidebar({ isOpen, onClose, onDeleteChat }: SidebarProps) {
 
         <Button
           onClick={createNewChat}
+          disabled={creating}
           className="mb-4 flex items-center gap-2"
           variant="outline"
         >
           <PlusCircle className="h-4 w-4" />
-          New Chat
+          {creating ? 'Creating…' : 'New Chat'}
         </Button>
 
         <ScrollArea className="flex-1">
-          <div className="space-y-2">
-            {chats.map((chat) => (
-              <div
-                key={chat.id}
-                className="group relative"
-              >
-                <Button
-                  variant={chat.active ? "secondary" : "ghost"}
-                  className="w-full justify-start gap-2 pr-8"
-                  onClick={() => selectChat(chat.id)}
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  {chat.name}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={(e) => handleDeleteChat(e, chat.id)}
-                >
-                  <Trash2 className="h-4 w-4 text-primary" />
-                </Button>
-              </div>
-            ))}
-          </div>
+          {loadingChats ? (
+            <p className="text-center text-sm text-gray-500">Loading chats…</p>
+          ) : (
+            <div className="space-y-2">
+              {chats.map((chat) => (
+                <div key={chat.id} className="group relative">
+                  <Button
+                    variant={chat.active ? 'secondary' : 'ghost'}
+                    className="w-full justify-start gap-2 pr-8"
+                    onClick={() => selectChat(chat.id)}
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    {chat.name}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    disabled={deletingId === chat.id}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"
+                    onClick={(e) => handleDeleteChat(e, chat.id)}
+                  >
+                    {deletingId === chat.id ? '…' : <Trash2 className="h-4 w-4 text-primary" />}
+                  </Button>
+                </div>
+              ))}
+              {chats.length === 0 && (
+                <p className="text-center text-sm text-gray-500">
+                  No chats yet. Create one above.
+                </p>
+              )}
+            </div>
+          )}
         </ScrollArea>
       </div>
     </div>

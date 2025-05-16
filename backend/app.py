@@ -3,7 +3,7 @@ import json
 import torch
 import requests
 from pathlib import Path
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Depends, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -157,9 +157,42 @@ def list_chats(db: Session = Depends(get_db), current_user: User = Depends(get_c
     if not current_user.is_admin: qry = qry.filter(Chat.user_id == current_user.id)
     return qry.all()
 
+@app.delete(
+    "/chats/{chat_id}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete a chat by its ID"
+)
+def delete_chat(
+    chat_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    chat = db.query(Chat).filter(Chat.id == chat_id).first()
+    if not chat:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Chat not found",
+        )
+    # only allow owner (or admin) to delete
+    if not current_user.is_admin and chat.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized to delete this chat",
+        )
+
+    db.delete(chat)
+    db.commit()
+    # 204_NO_CONTENT → empty response body
+    return
+
+
+
 @app.post("/chats/", response_model=ChatResponse)
 def create_chat(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    chat = Chat(user_id=current_user.id, created_at=datetime.utcnow()); db.add(chat); db.commit(); db.refresh(chat)
+    chat = Chat(user_id=current_user.id, created_at=datetime.utcnow())
+    db.add(chat)
+    db.commit()
+    db.refresh(chat)
     return chat
 
 @app.get("/chats/{chat_id}/messages", response_model=List[MessageResponse])
