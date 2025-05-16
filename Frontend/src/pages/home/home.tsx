@@ -1,10 +1,20 @@
 // pages/home/Home.tsx
 import React from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import Navbar from "@/components/custom/navbar";
 import bot from "@/assets/bot.png"; // Placeholder for chatbot image
+import { isTokenExpired } from "@/utils/auth"; // Import the function to check token expiration
+import { useNavigate } from "react-router-dom";
 const Home: React.FC = () => {
+  const navigate = useNavigate();
+  // check if the token has expired or not
+  const token = localStorage.getItem("token");
+  const isExpired = isTokenExpired(token);
+  if (isExpired) {
+     localStorage.removeItem("token");
+     navigate("/login");
+  }
 
   return (
     <motion.div

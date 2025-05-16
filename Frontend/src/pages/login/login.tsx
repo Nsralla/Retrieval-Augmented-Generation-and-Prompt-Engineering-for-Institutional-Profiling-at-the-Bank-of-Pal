@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import Navbar from '@/components/custom/navbar';
-import { BASE_URL } from '@/api';
+import { BASE_URL,CONTENT_TYPE } from '@/api';
 import axios from 'axios';
 import { XCircleIcon } from 'lucide-react';
 
@@ -43,7 +43,7 @@ const Login: React.FC = () => {
       params.append('password', password);
 
       const response = await axios.post(`${BASE_URL}/login`, params, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 'Content-Type': CONTENT_TYPE },
       });
 
       if (response.status === 200) {
