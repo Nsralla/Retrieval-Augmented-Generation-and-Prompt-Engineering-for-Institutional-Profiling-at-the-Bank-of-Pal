@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
 import Navbar from '@/components/custom/navbar';
-// import { ReactComponent as LostRobot } from '@/assets/robot-lost.svg'; // you can swap in your own SVG
+import lostRobotUrl from '@/assets/robot-lost.svg';
 
 const NotFound: React.FC = () => {
   const { isDarkMode } = useTheme();
@@ -27,7 +27,13 @@ const NotFound: React.FC = () => {
           className="max-w-md text-center"
         >
           Illustration
-         
+         <div className="mb-8">
+          <img
+            src={lostRobotUrl}
+            alt="Lost robot illustration"
+            className="mx-auto w-48 h-48"
+          />
+        </div>
 
           {/* Error Message */}
           <h1 className={`text-5xl font-extrabold mb-4 ${textColor}`}>

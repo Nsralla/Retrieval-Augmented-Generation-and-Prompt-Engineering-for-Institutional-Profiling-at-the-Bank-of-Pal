@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../../context/ThemeContext';
 import Navbar from '@/components/custom/navbar';
 import { BASE_URL } from '@/api';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { XCircleIcon } from 'lucide-react';
 
 const Login: React.FC = () => {
