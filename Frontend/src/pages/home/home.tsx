@@ -71,7 +71,7 @@ const Home: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="mt-4 text-sm text-gray-500 dark:text-gray-400"
           >
-            Powered by ChatGPT
+            Powered by OLLAMA
           </motion.p>
         </div>
 

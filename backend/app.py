@@ -84,7 +84,7 @@ if not INDEX_DIR.is_dir() or not (INDEX_DIR / "index.faiss").exists():
         print(f"Warning: JSON file not found at {DATA_PATH}. Skipping FAISS build.")
 
 # ─── initialize pipeline ───────────────────────────────────────────────────────
-pipeline = QueryPipeline(index_dir=str(INDEX_DIR), top_k=3)
+pipeline = QueryPipeline(index_dir=str(INDEX_DIR), top_k=5)
 
 # ─── FastAPI app setup ────────────────────────────────────────────────────────
 app = FastAPI()
@@ -153,8 +153,9 @@ def list_users(current_user: User = Depends(get_current_user), db: Session = Dep
 # --- Chat endpoints ---
 @app.get("/chats/", response_model=List[ChatResponse])
 def list_chats(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    qry = db.query(Chat);
-    if not current_user.is_admin: qry = qry.filter(Chat.user_id == current_user.id)
+    qry = db.query(Chat)
+    if not current_user.is_admin: 
+        qry = qry.filter(Chat.user_id == current_user.id)
     return qry.all()
 
 @app.delete(
@@ -234,7 +235,7 @@ def send_message(
     resp = requests.post(
         "http://176.119.254.185:7111/answer",
         json={"question": message.user_message, "document": context},
-        timeout=10,
+        timeout=30,
     )
     if resp.status_code != 200:
         raise HTTPException(
