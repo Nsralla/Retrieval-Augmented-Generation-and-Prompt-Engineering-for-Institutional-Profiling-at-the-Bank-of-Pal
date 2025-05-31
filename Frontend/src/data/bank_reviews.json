@@ -97,6 +97,46 @@
     "source": "Google Maps",
     "location": "فرع شارع الكلية الأهلية - رام الله"
   },
+   {
+    "reviewer": "العسل للكمبيوتر للاتصالات",
+    "stars": 5,
+    "since": 6,
+    "review": "خدمة ممتازة",
+    "location": "قلقيليا عزون",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "مراد شبيطه",
+    "stars": 5,
+    "since": 3,
+    "review": "خدمة مميزة",
+    "location": "قلقيليا عزون",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "العالم بالعربية",
+    "stars": 5,
+    "since": 6,
+    "review": "خدمة ممتازة",
+    "location": "قلقيليا عزون",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Ehab Khalid",
+    "stars": 5,
+    "since": 2,
+    "review": "ممتاز",
+    "location": "قلقيليا عزون",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Ehab Houssin",
+    "stars": 5,
+    "since": 7,
+    "review": "محترمين",
+    "location": "قلقيليا عزون",
+    "source": "Google Maps"
+  },
   {
     "review": "مؤسسة سيئة من خلال تجربتي، وموظفيها متعجرفين ولا يتجاوبوا مع الزبائن. هذا من خلال تجربتي بالأمس بتاريخ 7 فبراير.",
     "stars": 1,
@@ -364,105 +404,105 @@
     "stars": 1,
     "reviewer": "Tarek Qawasmi",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "يقدم الخدمات المصرفية.",
     "stars": 2,
     "reviewer": "Ahmad Al-Dali",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "بنك مميز والخدمة سريعة.",
     "stars": 5,
     "reviewer": "Osama Mansour",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "بطيء نوعاً ما",
     "stars": 3,
     "reviewer": "mohammad zahran",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "not something. High fees",
     "stars": 3,
     "reviewer": "אליאב שלום",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "Bad online services, can't change your card currency, a %1 fee for every time you want to charge your card...",
     "stars": 2,
     "reviewer": "Ahmad Nasriya",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "For foreigners: the bank charges 2% fee of the amount you withdraw...",
     "stars": 3,
     "reviewer": "Valera Strugov",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "بنك جيد يطور من خدماته للزبان بشكل دوري... لكن يجب التسهيل أكثر...",
     "stars": 4,
     "reviewer": "nasri atwan",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "I am looking for the \"West Bank\" and/or the \"Bank of the West\"...",
     "stars": 3,
     "reviewer": "Mark Blomquist",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "أفضل بنك في فلسطين من ناحية خدمات",
     "stars": 5,
     "reviewer": "belén Palestina",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "%1 fee and 2% fee for non Palestinian",
     "stars": 2,
     "reviewer": "بيت الخط العربي وورقة الإمام",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "ATM 24 hours, Dollars and NIS",
     "stars": 4,
     "reviewer": "Pavel Anděl",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "جيده ومعاملة جيدة وسرعة في العمل",
     "stars": 4,
     "reviewer": "Mohammad Shalassh",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "Awesome",
     "stars": 5,
     "reviewer": "Shahd Barakat",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
   {
     "review": "ATM",
     "stars": 5,
     "reviewer": "Bader Hmoud",
     "source": "Google Maps",
-    "location": "فرع بيت لحم"
+    "location": "Hebron Rd, Bethlehem"
   },
 
   {
@@ -592,6 +632,43 @@
     "stars": 5,
     "location": "فرع سلفيت"
   },
+
+  {
+    "reviewer": "رائد سباعنة",
+    "stars": 5,
+    "since": 3,
+    "review": "يحتاج إلى توسعة بسبب كثرة العملاء، يوجد نظام جيد وخدمات ممتازة.",
+    "location": "سلواد"
+  },
+  {
+    "reviewer": "Mohammad Hammad",
+    "stars": 5,
+    "since": 7,
+    "review": "Good customer service and good staff",
+    "location": "سلواد"
+  },
+  {
+    "reviewer": "محمد هاني نعسان",
+    "stars": 5,
+    "since": 3,
+    "review": "👍🏿 👍 👍 👍 👍 👍 👍 ...",
+    "location": "سلواد"
+  },
+  {
+    "reviewer": "Feras Ag",
+    "stars": 1,
+    "since": 2,
+    "review": "",
+    "location": "سلواد"
+  },
+  {
+    "reviewer": "Nazmi Nasser",
+    "stars": 5,
+    "since": 3,
+    "review": "",
+    "location": "سلواد"
+  },
+
   {
     "reviewer": "Ashraf Ayyash (Abo Omar)",
     "review": "مميز وفيه فخامة الاسم",
@@ -803,327 +880,678 @@
     "since": 4
   },
   {
-    "name": "Nidal Khatib",
+    "reviewer": "Nidal Khatib",
     "stars": 1,
     "since": "4",
     "review": "لا يوجد موقف للسيارات\nاكتظاظ في العملاء والازدحام\nانصح بفتح فرع آخر خارج مركز المدينة\nعمل صندوق خاص للمعاملات الحكومية",
     "location": "Jenin 2010441"
   },
   {
-    "name": "تهريب عمال",
+    "reviewer": "تهريب عمال",
     "stars": 5,
     "since": "2",
     "review": "مكان مزحم للغاية خدمة غير رائعة وقت انتظار طويل وانا عميل للبنك ولا ارغب بهذا اطلاقاً",
     "location": "Jenin 2010441"
   },
   {
-    "name": "mohammd jarrar",
+    "reviewer": "mohammd jarrar",
     "stars": 1,
     "since": "5",
     "review": "احنا توفر موقف خلص بزعلان البنك",
     "location": "Jenin 2010441"
   },
   {
-    "name": "DeeMa Balalta",
+    "reviewer": "DeeMa Balalta",
     "stars": 2,
     "since": "6",
     "review": "It's always busy, no enough employees to serve the customers and they aren't friendly.",
     "location": "Jenin 2010441"
   },
   {
-    "name": "AbdElFattah Othman",
+    "reviewer": "AbdElFattah Othman",
     "stars": 3,
     "since": "6",
     "review": "دائماً أزمة.. أول الشهر مثل آخره.. لا يوجد عدد كافٍ من الموظفين..",
     "location": "Jenin 2010441"
   },
   {
-    "name": "hamzeh al-khatteb",
+    "reviewer": "hamzeh al-khatteb",
     "stars": 5,
     "since": "3",
     "review": "💞💞💞 ...",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Kudoj Sadee",
+    "reviewer": "Kudoj Sadee",
     "stars": 3,
     "since": "4",
     "review": "اداء ممتاز وسريع في العمل",
     "location": "Jenin 2010441"
   },
    {
-    "name": "XP STRONG",
+    "reviewer": "XP STRONG",
     "stars": 4,
     "since": "6",
     "review": "من أفضل البنوك في المعاملة مع زبائنهم",
     "location": "Jenin 2010441"
   },
   {
-    "name": "MD. IMRAN HOSSAIN",
+    "reviewer": "MD. IMRAN HOSSAIN",
     "stars": 5,
     "since": "a year ago",
     "review": "I love Palestine",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Amjad Mosa",
+    "reviewer": "Amjad Mosa",
     "stars": 4,
     "since": "2",
     "review": "مؤسسه ماليه",
     "location": "Jenin 2010441"
   },
   {
-    "name": "ممدوح تركمان",
+    "reviewer": "ممدوح تركمان",
     "stars": 5,
     "since": "3",
     "review": "ممتاز",
     "location": "Jenin 2010441"
   },
   {
-    "name": "محمد عبدالله",
+    "reviewer": "محمد عبدالله",
     "stars": 1,
     "since": "4",
     "review": "جيد",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Amara Therapy Center (Amara Hidžama)",
+    "reviewer": "Amara Therapy Center (Amara Hidžama)",
     "stars": 5,
     "since": "4",
     "review": "Jenin",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Unknown",
+    "reviewer": "Unknown",
     "stars": 4,
     "since": "6",
     "review": "روعه",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Hammam Abu Baker",
+    "reviewer": "Hammam Abu Baker",
     "stars": 1,
     "since": "6",
     "review": "الدنيا حرام",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Andi Laow",
+    "reviewer": "Andi Laow",
     "stars": 5,
     "since": "7",
     "review": "Good place",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Mhammad Lahluh",
+    "reviewer": "Mhammad Lahluh",
     "stars": 4,
     "since": "6 days ago",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "مازن حجب",
+    "reviewer": "مازن حجب",
     "stars": 1,
     "since": "3 weeks ago",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Bilal Bouz",
+    "reviewer": "Bilal Bouz",
     "stars": 4,
     "since": "4 months ago",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Probir Saha",
+    "reviewer": "Probir Saha",
     "stars": 2,
     "since": "a year ago",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Hibrullah Ian",
+    "reviewer": "Hibrullah Ian",
     "stars": 5,
     "since": "a year ago",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "bon bon",
+    "reviewer": "bon bon",
     "stars": 5,
     "since": "a year ago",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Ola Alahmad",
+    "reviewer": "Ola Alahmad",
     "stars": 5,
     "since": "a year ago",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "abood al share",
+    "reviewer": "abood al share",
     "stars": 4,
     "since": "2",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "emad mahmod",
+    "reviewer": "emad mahmod",
     "stars": 4,
     "since": "2",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "amin tahayneh",
+    "reviewer": "amin tahayneh",
     "stars": 5,
     "since": "2",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "عبود كميل",
+    "reviewer": "عبود كميل",
     "stars": 5,
     "since": "2",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Saleh Hantoli",
+    "reviewer": "Saleh Hantoli",
     "stars": 3,
     "since": "2",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Hamad Hamad",
+    "reviewer": "Hamad Hamad",
     "stars": 4,
     "since": "3",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Hdhd Bdsh",
+    "reviewer": "Hdhd Bdsh",
     "stars": 4,
     "since": "3",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Ali AbdElRazeq",
+    "reviewer": "Ali AbdElRazeq",
     "stars": 4,
     "since": "3",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Gggg Yyyy",
+    "reviewer": "Gggg Yyyy",
     "stars": 3,
     "since": "3",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "بهاء الكيلاني",
+    "reviewer": "بهاء الكيلاني",
     "stars": 3,
     "since": "3",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Mohamad Abbadi",
+    "reviewer": "Mohamad Abbadi",
     "stars": 5,
     "since": "3",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "loai habiballh",
+    "reviewer": "loai habiballh",
     "stars": 5,
     "since": "3",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "mohammed Abualhijae",
+    "reviewer": "mohammed Abualhijae",
     "stars": 5,
     "since": "3",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "أطمئن قلبي | I reassure my heart",
+    "reviewer": "أطمئن قلبي | I reassure my heart",
     "stars": 5,
     "since": "3  ",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "عبدالله \"ز عرور\"",
+    "reviewer": "عبدالله \"ز عرور\"",
     "stars": 2,
     "since": "4",
     "review": "",
     "location": "Jenin 2010441"
   },
   {
-    "name": "Moamen Saaida",
+    "reviewer": "Moamen Saaida",
     "stars": 3,
     "since": "4",
     "review": "",
     "location": "Jenin 2010441"
   },
    {
-    "name": "Moh Sartawi",
+    "reviewer": "Moh Sartawi",
     "stars": 5,
     "since": 2,
     "review": "موقع مناسب، خدمات ممتازة و مناسب لذوي الإحتياجات الخاصة وخدمة سريعة",
     "location": "سلفيت شارع القسام"
   },
   {
-    "name": "conan cost",
+    "reviewer": "conan cost",
     "stars": 1,
     "since": 1,
     "review": "سيئ مش ملاقي كلمة اوصفو اكثر من هيك 👍🏼 ...",
     "location": "سلفيت شارع القسام"
   },
   {
-    "name": "Ashraf Ayyash (Abo Omar)",
+    "reviewer": "Ashraf Ayyash (Abo Omar)",
     "stars": 5,
     "since": 3,
     "review": "مميز يكفي فخامة الاسم",
     "location": "سلفيت شارع القسام"
   },
   {
-    "name": "العسل للكمبيوتر للاتصالات",
+    "reviewer": "العسل للكمبيوتر للاتصالات",
     "stars": 5,
     "since": 6,
     "review": "رائع\nالموظفين رائعين\nخدمة ممتازة",
     "location": "سلفيت شارع القسام"
   },
   {
-    "name": "Twyeut Rwuuey",
+    "reviewer": "Twyeut Rwuuey",
     "stars": 5,
     "since": 8,
     "review": "حسن بنك",
     "location": "سلفيت شارع القسام"
   },
   {
-    "name": "Amooora fhtfgt",
+    "reviewer": "Amooora fhtfgt",
     "stars": 5,
     "since": 5,
     "review": "راااائع",
     "location": "سلفيت شارع القسام"
   },
   {
-    "name": "حالات واتس اب رومنسية",
+    "reviewer": "حالات واتس اب رومنسية",
     "stars": 5,
     "since": 6,
     "review": "",
     "location": "سلفيت شارع القسام"
+  },
+   {
+    "reviewer": "Abdallah Mubarak",
+    "stars": 5,
+    "since": 9,
+    "review": "احسن خدمه و احسن معامله",
+    "location": "بيت جالا"
+  },
+  {
+    "reviewer": "Ali Ali",
+    "stars": 3,
+    "since": 5,
+    "review": "",
+    "location": "بيت جالا"
+  },
+  {
+    "reviewer": "Philip Daoud",
+    "stars": 4,
+    "since": 7,
+    "review": "",
+    "location": "بيت جالا"
+  },
+   {
+    "reviewer": "M. varis Azhar VA",
+    "stars": 5,
+    "since": 4,
+    "review": "support PALESTINE 💞💞💞",
+    "location": "غزة الجلاء"
+  },
+  {
+    "reviewer": "Mhmd Adel",
+    "stars": 5,
+    "since": 5,
+    "review": "",
+    "location": "غزة الجلاء"
+  },
+  {
+    "reviewer": "Amany Hisham",
+    "stars": 5,
+    "since": 5,
+    "review": "",
+    "location": "غزة الجلاء"
+  },
+  {
+    "reviewer": "ندا سالم",
+    "stars": 5,
+    "since": 6,
+    "review": "بنك رائع ومميز جداً عن كل مصارف فلسطين",
+    "location": "غزة الجلاء"
+  },
+  {
+    "reviewer": "ابو محمود نصر",
+    "stars": 5,
+    "since": 7,
+    "review": "منطقة تجارية",
+    "location": "غزة الجلاء"
+  },
+
+   {
+    "reviewer": "Otaybah Ikhleyl",
+    "stars": 3,
+    "since": 2,
+    "review": "صراحه الموظفين في قمة الاحترام ويحاولوا يساعدو .. لاكن البنك نفسه لا! لاحظت انه ما عندو اهتمام لخصوصيات الزبون خصوصا لما تفتح حساب الملكك ما يكون مسكر وصوت السماعه الي بتنادي ع رقمك كل 5 ثواني بتنط رقم زي البساطه الناس الي قاعدة تسمع في بنك تحط في الحساب! والمشكله ما بيعطوني نسخه عن العقد مع البنك!! (يعني عقد فتح الحساب)!!!!",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "Jood Samer",
+    "stars": 5,
+    "since": 1,
+    "review": "اكن الاجارة، بنك فلسطين فرع دورا والأخوة والأخوات العاملين به كل التقدير والاحترام لحسن التعامل وسرعة التجاوب والأداء",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "khalil awawdih",
+    "stars": 3,
+    "since": 3,
+    "review": "جيد الى الامام",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "Yara Tamimi",
+    "stars": 3,
+    "since": 4,
+    "review": "بنك لا بأس به",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "Yara Abu Munshar",
+    "stars": 4,
+    "since": 4,
+    "review": "ممتازه جدا",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "اسماعيل حروب",
+    "stars": 1,
+    "since": 4,
+    "review": "سيء جدا",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "بهاء العوادة",
+    "stars": 5,
+    "since": 6,
+    "review": "جيد 👍 ...",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "Ata Subeh",
+    "stars": 5,
+    "since": 3,
+    "review": "رائعين",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "sevandawn gameng",
+    "stars": 5,
+    "since": 7,
+    "review": "Nj",
+    "location": "الخليل دورا"
+  },
+  {
+    "reviewer": "Zia Ul Islam",
+    "stars": 5,
+    "since": 6,
+    "review": "Palestine is very beautiful country I like this country. Allah made Palestine an independent country and Allah saved the Palestinians from Israel.",
+    "location": "غزة الرمال"
+  },
+  {
+    "reviewer": "Imadeddin Almadhoun",
+    "stars": 5,
+    "since": 6,
+    "review": "Best banking services in the whole Gaza strip and most likely Palestine.",
+    "location": "غزة الرمال"
+  },
+  {
+    "reviewer": "ميــرو ايــهم",
+    "stars": 5,
+    "since": 8,
+    "review": "أفضل واحلى بنك في قطاع غزة مزيدا من التقدم والنجاح",
+    "location": "غزة الرمال"
+  },
+  {
+    "reviewer": "mohey eldeen Alhiali",
+    "stars": 5,
+    "since": 3,
+    "review": "كل الإحترام والتقدير لكم",
+    "location": "غزة الرمال"
+  },
+  {
+    "reviewer": "gzuis tzyusuu",
+    "stars": 5,
+    "since": 5,
+    "review": "مكان جميل وعادل وسريع",
+    "location": "غزة الرمال",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Wahid Salah",
+    "stars": 5,
+    "since": 8,
+    "review": "Friendly people and fast processing.",
+    "location": "غزة الرمال",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "م.عمر نبيل أرشـي",
+    "stars": 5,
+    "since": 3,
+    "review": "مؤسسة مالية مصرفية كبيرة ووطنية",
+    "location": "غزة الرمال",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "HaSSaN SkAiK",
+    "stars": 5,
+    "since": 8,
+    "review": "أفضل بنك في فلسطين",
+    "location": "غزة الرمال",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "khaled bkroon",
+    "stars": 5,
+    "since": 2,
+    "review": "ممتازة",
+    "location": "غزة الرمال",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "مجموعة أمان للخدمات المالية والمصرفية",
+    "stars": 5,
+    "since": 2,
+    "review": "The Number one here",
+    "location": "غزة الرمال",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Yudi Indra.H",
+    "stars": 5,
+    "since": 2,
+    "review": "people friendly",
+    "location": "غزة الرمال",
+    "source": "Google Maps"
+  },
+   {
+    "reviewer": "Motaz Ab",
+    "stars": 5,
+    "since": 1,
+    "review": "طاقم ممتاز وخدمة سريعة",
+    "location": "طول كرم شارع المعبر",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "BM Mr.",
+    "stars": 5,
+    "since": 3,
+    "review": "بنك رائع و يحترم عملاؤه",
+    "location": "طول كرم شارع المعبر",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Khalid Salman",
+    "stars": 4,
+    "since": 8,
+    "review": "جامعة حكومية و صرف الي .",
+    "location": "طول كرم شارع المعبر",
+     "source": "Google Maps"
+
+  },
+  {
+    "reviewer": "Suhaib Jallad",
+    "stars": 2,
+    "since": 8,
+    "review": "جيد",
+    "location": "طول كرم شارع المعبر",
+    "source": "Google Maps"
+
+  },
+  {
+    "reviewer": "Yousif Traveller",
+    "stars": 5,
+    "since": 4,
+    "review": "Very clean and tidy. You can get cold water to drink. Cooperative staff",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "العسل للكمبيوتر للاتصالات",
+    "stars": 5,
+    "since": 6,
+    "review": "مكان تجد الخدمة الممتازة من الموظفين",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Brqq Daoud",
+    "stars": 3,
+    "since": 4,
+    "review": "عدم وجود موقف خاص للزبائن فيه",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "ali m zwahra",
+    "stars": 3,
+    "since": 2,
+    "review": "موقعه جيد",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "isam mizyed",
+    "stars": 1,
+    "since": 2,
+    "review": "خدمات غالية كتير",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Malice",
+    "stars": 1,
+    "since": 3,
+    "review": "مغلقين اثناء ريحة المصاري",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Omara Dereieh",
+    "stars": 5,
+    "since": 3,
+    "review": "Good",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "OSAMA_VIDEO",
+    "stars": 5,
+    "since": 2,
+    "review": "رائع",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Anas Jaber",
+    "stars": 5,
+    "since": 4,
+    "review": "جيد",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "فادي اغطش",
+    "stars": 4,
+    "since": 8,
+    "review": "قريب",
+    "location": "نابلس شارع حوارة",
+    "source": "Google Maps"
+  },
+   {
+    "reviewer": "محمد رماحة",
+    "stars": 2,
+    "since": 3,
+    "review": "معاملة سيئة.... العميل يحتاج لأكثر من ساعة حتى إتمام أبسط المعاملات بينما الموظفة تعمل بأقل سرعة ونشاط",
+    "location": "نابلس شارع طولكرم",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Yosef Basyoni (ابو محمد)",
+    "stars": 4,
+    "since": 8,
+    "review": "فرع لبنك فلسطين بالمنطقة الغربية لنابلس قرب مفرق زواتا لا يوجد موقف سيارات",
+    "location": "نابلس شارع طولكرم",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Bilal Bouz",
+    "stars": 4,
+    "since": 7,
+    "review": "فرع جيد ويوجد موقف للسيارة",
+    "location": "نابلس شارع طولكرم",
+    "source": "Google Maps"
+  },
+  {
+    "reviewer": "Malice",
+    "stars": 1,
+    "since": 3,
+    "review": "مغلقين اثناء على المصاري",
+    "location": "نابلس شارع طولكرم",
+    "source": "Google Maps"
   }
+  
 
 
 

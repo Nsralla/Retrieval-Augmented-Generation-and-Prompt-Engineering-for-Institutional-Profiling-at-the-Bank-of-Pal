@@ -16,7 +16,12 @@ import {
   Tooltip,
 } from 'recharts';
 
-type StarsData = Record<string, number>;
+// Define the new shape of each entry in stars.json
+interface StarEntry {
+  location: string;
+  star: number;
+  image: string;
+}
 
 interface Review {
   review: string;
@@ -32,12 +37,14 @@ interface ChartDataPoint {
 }
 
 const ReviewsSummary: React.FC = () => {
-  const [starsData, setStarsData] = useState<StarsData>({});
+  // starsData is now an array of StarEntry objects
+  const [starsData, setStarsData] = useState<StarEntry[]>([]);
   const [reviewsData, setReviewsData] = useState<Review[]>([]);
   const { isDarkMode } = useTheme();
 
   useEffect(() => {
-    setStarsData(starsDataRaw as StarsData);
+    // Cast the imported JSON to StarEntry[]
+    setStarsData(starsDataRaw as StarEntry[]);
     setReviewsData(reviewsDataRaw as Review[]);
   }, []);
 
@@ -48,7 +55,7 @@ const ReviewsSummary: React.FC = () => {
       ? reviewsData.reduce((sum, r) => sum + r.stars, 0) / totalReviews
       : 0;
 
-  // Unique branch names
+  // Unique branch names (stripping any "فرع " prefix)
   const branchNamesSet = new Set<string>();
   reviewsData.forEach((r) => {
     const withoutPrefix = r.location.replace(/^فرع\s+/, '');
@@ -66,16 +73,18 @@ const ReviewsSummary: React.FC = () => {
     }
   });
 
-  // Chart data from starsData
-  const chartData: ChartDataPoint[] = Object.entries(starsData).map(
-    ([branch, rating]) => ({
-      branch,
-      rating,
-    })
-  );
+  // Chart data from starsData array
+  const chartData: ChartDataPoint[] = starsData.map((entry) => ({
+    branch: entry.location,
+    rating: entry.star,
+  }));
 
   return (
-    <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+    <div
+      className={`flex flex-col min-h-screen ${
+        isDarkMode ? 'bg-gray-900' : 'bg-gray-100'
+      }`}
+    >
       {/* Navbar */}
       <Navbar />
 
@@ -127,7 +136,8 @@ const ReviewsSummary: React.FC = () => {
           <div className="flex flex-col items-center">
             <span className="text-xl font-medium">Average Rating</span>
             <span className="mt-2 text-4xl font-bold">
-              {averageRating.toFixed(1)} / 5 <span className="text-yellow-400">★</span>
+              {averageRating.toFixed(1)} / 5{' '}
+              <span className="text-yellow-400">★</span>
             </span>
           </div>
 
@@ -140,7 +150,9 @@ const ReviewsSummary: React.FC = () => {
           {/* Number of Branches Reviewed */}
           <div className="flex flex-col items-center">
             <span className="text-xl font-medium">Branches Reviewed</span>
-            <span className="mt-2 text-4xl font-bold">{numberOfBranchesReviewed}</span>
+            <span className="mt-2 text-4xl font-bold">
+              {numberOfBranchesReviewed}
+            </span>
           </div>
 
           {/* Placeholder */}
@@ -170,7 +182,9 @@ const ReviewsSummary: React.FC = () => {
                     `}
                     style={{
                       width: `${
-                        totalReviews > 0 ? (distribution[star] / totalReviews) * 100 : 0
+                        totalReviews > 0
+                          ? (distribution[star] / totalReviews) * 100
+                          : 0
                       }%`,
                     }}
                   />
@@ -186,13 +200,20 @@ const ReviewsSummary: React.FC = () => {
       <section className={`w-full h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="flex flex-col h-full">
           <div className="flex justify-between items-center py-6 px-8">
-            <h2 className={`text-2xl font-semibold ${isDarkMode ? 'text-gray-100' : 'text-gray-800'}`}>
+            <h2
+              className={`text-2xl font-semibold ${
+                isDarkMode ? 'text-gray-100' : 'text-gray-800'
+              }`}
+            >
               Average Rating by Branch
             </h2>
           </div>
           <div className="flex-1 w-full">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <BarChart
+                data={chartData}
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
                 <XAxis
                   dataKey="branch"
                   tickLine={false}
@@ -237,46 +258,67 @@ const ReviewsSummary: React.FC = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {Object.entries(starsData).map(([branchName, rating]) => (
+     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {starsData.map((entry) => (
             <Link
-              key={branchName}
-              to={`/reviews/${encodeURIComponent(branchName)}`}
-              className={`
+            key={entry.location}
+            to={`/reviews/${encodeURIComponent(entry.location)}`}
+            className={`
                 group relative rounded-lg p-4 transition-shadow block
                 ${isDarkMode
-                  ? 'bg-gray-700 shadow-md hover:shadow-lg'
-                  : 'bg-white shadow-md hover:shadow-lg'
+                ? 'bg-gray-700 shadow-md hover:shadow-lg'
+                : 'bg-white shadow-md hover:shadow-lg'
                 }
-              `}
+            `}
             >
-              <p className={`${isDarkMode ? 'text-gray-100' : 'text-gray-700'} text-lg font-medium`}>
-                {branchName}
-              </p>
-              <span
+            {entry.image ? (
+                <img
+                src={entry.image}
+                alt={`${entry.location} thumbnail`}
+                className="w-full h-32 object-cover mb-2 rounded"
+                />
+            ) : (
+                <div
+                className={`
+                    w-full h-32 mb-2 rounded flex items-center justify-center text-center
+                    ${isDarkMode ? 'bg-gray-600 text-white' : 'bg-gray-200 text-gray-800'}
+                `}
+                >
+                <span className="text-lg font-bold px-2">{entry.location}</span>
+                </div>
+            )}
+
+            <p className={`${isDarkMode ? 'text-gray-100' : 'text-gray-700'} text-lg font-medium`}>
+                {entry.location}
+            </p>
+            <span className="mt-1 text-yellow-400">
+                ★ {entry.star.toFixed(1)}
+            </span>
+            <span
                 className="
-                  absolute 
-                  bottom-full 
-                  left-1/2 
-                  transform -translate-x-1/2 
-                  mb-2 
-                  bg-black bg-opacity-75 
-                  text-white 
-                  text-sm 
-                  px-2 
-                  py-1 
-                  rounded 
-                  opacity-0 
-                  group-hover:opacity-100 
-                  transition-opacity 
-                  whitespace-nowrap
+                absolute 
+                bottom-full 
+                left-1/2 
+                transform -translate-x-1/2 
+                mb-2 
+                bg-black bg-opacity-75 
+                text-white 
+                text-sm 
+                px-2 
+                py-1 
+                rounded 
+                opacity-0 
+                group-hover:opacity-100 
+                transition-opacity 
+                whitespace-nowrap
                 "
-              >
-                ★ {rating.toFixed(1)}
-              </span>
+            >
+                ★ {entry.star.toFixed(1)}
+            </span>
             </Link>
-          ))}
+        ))}
         </div>
+
       </section>
     </div>
   );
