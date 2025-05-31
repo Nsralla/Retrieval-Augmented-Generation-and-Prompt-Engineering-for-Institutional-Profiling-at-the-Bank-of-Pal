@@ -136,8 +136,7 @@ const ReviewsSummary: React.FC = () => {
           <div className="flex flex-col items-center">
             <span className="text-xl font-medium">Average Rating</span>
             <span className="mt-2 text-4xl font-bold">
-              {averageRating.toFixed(1)} / 5{' '}
-              <span className="text-yellow-400">★</span>
+              {averageRating.toFixed(1)} / 5 <span className="text-yellow-400">★</span>
             </span>
           </div>
 
@@ -161,38 +160,44 @@ const ReviewsSummary: React.FC = () => {
 
         {/* Rating Distribution */}
         <div className="mt-12 w-3/4">
-          <span className="text-xl font-medium">Rating Distribution</span>
-          <ul className="mt-4 space-y-2">
-            {[5, 4, 3, 2, 1].map((star) => (
-              <li key={star} className="flex items-center">
-                <span className="w-16">
-                  {star}
-                  <span className="text-yellow-400">★</span>
-                </span>
-                <div
-                  className={`
-                    flex-1 h-5 rounded-full overflow-hidden 
-                    ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}
-                  `}
-                >
-                  <div
-                    className={`
-                      h-full rounded-full 
-                      ${isDarkMode ? 'bg-yellow-500' : 'bg-yellow-400'}
-                    `}
-                    style={{
-                      width: `${
-                        totalReviews > 0
-                          ? (distribution[star] / totalReviews) * 100
-                          : 0
-                      }%`,
-                    }}
-                  />
-                </div>
-                <span className="ml-3 w-8 text-right">{distribution[star]}</span>
-              </li>
-            ))}
-          </ul>
+            <span className="text-xl font-medium">Rating Distribution</span>
+            <ul className="mt-4 space-y-2">
+                {[5, 4, 3, 2, 1].map((star) => (
+                    <li key={star} className="flex items-center">
+                        <Link 
+                            to={`/reviews/rating/${star}`} 
+                            className="group flex items-center w-full p-2 rounded-md transition-all duration-200 hover:bg-opacity-10 hover:bg-gray-500 cursor-pointer"
+                        >
+                            <span className="w-16 flex items-center">
+                                {star}
+                                <span className="text-yellow-400 ml-1">★</span>
+                            </span>
+                            <div
+                                className={`
+                                    flex-1 h-5 rounded-full overflow-hidden 
+                                    ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}
+                                `}
+                            >
+                                <div
+                                    className={`
+                                        h-full rounded-full 
+                                        ${isDarkMode ? 'bg-yellow-500' : 'bg-yellow-400'}
+                                    `}
+                                    style={{
+                                        width: `${
+                                            totalReviews > 0
+                                                ? (distribution[star] / totalReviews) * 100
+                                                : 0
+                                        }%`,
+                                    }}
+                                />
+                            </div>
+                            <span className="ml-3 w-8 text-right">{distribution[star]}</span>
+                            <span className="ml-2 text-gray-400 transform transition-transform group-hover:translate-x-1">→</span>
+                        </Link>
+                    </li>
+                ))}
+            </ul>
         </div>
       </section>
 
@@ -250,76 +255,24 @@ const ReviewsSummary: React.FC = () => {
         </div>
       </section>
 
-      {/* Branch Ratings Grid */}
-      <section className={`${isDarkMode ? 'bg-gray-800' : 'bg-white'} flex-grow py-12 px-6`}>
-        <div className="flex justify-between items-center mb-6">
-          <h2 className={`${isDarkMode ? 'text-gray-100' : 'text-gray-800'} text-2xl font-semibold`}>
-            Branch Ratings
-          </h2>
-        </div>
-
-     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {starsData.map((entry) => (
-            <Link
-            key={entry.location}
-            to={`/reviews/${encodeURIComponent(entry.location)}`}
-            className={`
-                group relative rounded-lg p-4 transition-shadow block
-                ${isDarkMode
-                ? 'bg-gray-700 shadow-md hover:shadow-lg'
-                : 'bg-white shadow-md hover:shadow-lg'
-                }
-            `}
-            >
-            {entry.image ? (
-                <img
-                src={entry.image}
-                alt={`${entry.location} thumbnail`}
-                className="w-full h-32 object-cover mb-2 rounded"
-                />
-            ) : (
-                <div
-                className={`
-                    w-full h-32 mb-2 rounded flex items-center justify-center text-center
-                    ${isDarkMode ? 'bg-gray-600 text-white' : 'bg-gray-200 text-gray-800'}
-                `}
-                >
-                <span className="text-lg font-bold px-2">{entry.location}</span>
-                </div>
-            )}
-
-            <p className={`${isDarkMode ? 'text-gray-100' : 'text-gray-700'} text-lg font-medium`}>
-                {entry.location}
-            </p>
-            <span className="mt-1 text-yellow-400">
-                ★ {entry.star.toFixed(1)}
-            </span>
-            <span
-                className="
-                absolute 
-                bottom-full 
-                left-1/2 
-                transform -translate-x-1/2 
-                mb-2 
-                bg-black bg-opacity-75 
-                text-white 
-                text-sm 
-                px-2 
-                py-1 
-                rounded 
-                opacity-0 
-                group-hover:opacity-100 
-                transition-opacity 
-                whitespace-nowrap
-                "
-            >
-                ★ {entry.star.toFixed(1)}
-            </span>
-            </Link>
-        ))}
-        </div>
-
-      </section>
+      {/* Link to Branch Ratings page (Full viewport) */}
+    <section className={`w-full h-screen flex items-center justify-center ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+      <Link
+        to="/branch-ratings"
+        className={`
+            px-8 py-4 text-xl font-semibold rounded-lg transition
+            flex items-center
+            ${isDarkMode
+              ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-400'
+              : 'bg-blue-700 text-white hover:bg-blue-600'
+            }
+            group
+        `}
+      >
+        <span>رؤية تقييمات الفروع</span>
+        <span className="inline-block ml-2 transform transition-transform duration-300 group-hover:translate-x-2">→</span>
+      </Link>
+    </section>
     </div>
   );
 };

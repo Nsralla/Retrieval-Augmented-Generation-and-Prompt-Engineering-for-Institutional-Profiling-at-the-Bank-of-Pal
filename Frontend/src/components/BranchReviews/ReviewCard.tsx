@@ -1,6 +1,8 @@
 // src/components/BranchReviews/ReviewCard.tsx
+
 import React from 'react';
-import { Review } from '../../pages/reviews/BranchReviews.tsx';
+import { motion } from 'framer-motion';
+import { Review } from '../../pages/reviews/BranchReviews';
 
 interface ReviewCardProps {
   rev: Review;
@@ -9,7 +11,11 @@ interface ReviewCardProps {
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ rev, isDarkMode }) => {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.03 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
       className={`
         p-6 rounded-xl shadow-lg
         ${isDarkMode ? 'bg-gray-700 text-gray-100' : 'bg-white text-gray-800'}
@@ -26,7 +32,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ rev, isDarkMode }) => {
         <span>المراجع: {rev.reviewer}</span>
         <span>{rev.location}</span>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

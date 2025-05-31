@@ -28,17 +28,18 @@
   {
     "location": "سلواد",
     "star": 3.3,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "ترمسعيا",
     "star": 4.0,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "أريحا",
     "star": 3.9,
-    "image": ""
+      "image":"../../public/images/areha.JPG"
+
   },
   {
     "location": "سلفيت شارع القسام",
@@ -53,7 +54,7 @@
   {
     "location": "نابلس شارع سفيان",
     "star": 3.6,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "سلفيت شارع البلدية",
@@ -63,12 +64,12 @@
   {
     "location": "بيت جالا",
     "star": 3.9,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "بيت لقيا",
     "star": 3.8,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "نابلس شارع طولكرم",
@@ -79,17 +80,17 @@
   {
     "location": "قلقيليا عزون",
     "star": 4.2,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "طول كرم شارع نابلس",
     "star": 4.2,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "قلقيليا المعبر",
     "star": 3.6,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "الخليل الشارع الجديد",
@@ -99,17 +100,17 @@
   {
     "location": "طول كرم شارع المعبر",
     "star": 4.3,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "الخليل يطا",
     "star": 3.4,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "جنين يعبد",
     "star": 4.3,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "الخليل دورا",
@@ -119,7 +120,7 @@
   {
     "location": "الخليل ترقوميا",
     "star": 3.6,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "غزة الرمال",
@@ -129,7 +130,7 @@
   {
     "location": "جنين ميلثون",
     "star": 3.8,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "غزة الجلاء",
@@ -139,22 +140,22 @@
   {
     "location": "شارع رابا، Jenin",
     "star": 4.5,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "نابلس شارع البلدية",
     "star": 4.3,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "Haifa Street, Jenin",
     "star": 3.2,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
   {
     "location": "Jenin 2010441",
     "star": 3.7,
-    "image": ""
+    "image": "../../public/images/default.png"
   },
 
   {

@@ -41,6 +41,11 @@ const BranchReviews: React.FC = () => {
   const { isDarkMode } = useTheme();
 
   useEffect(() => {
+  window.scrollTo(0, 0); // <-- Force scroll to top
+}, []);
+
+
+  useEffect(() => {
     if (!branchName) return;
     const decodedName = decodeURIComponent(branchName);
 
