@@ -3,18 +3,20 @@ import json
 import torch
 import requests
 from pathlib import Path
-from fastapi import FastAPI, HTTPException, Depends, Request, status
+from fastapi import FastAPI, HTTPException, Depends, Query, Request, status
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 from datetime import datetime
+
+from backend.core.sentiment import SentimentEnum, classify_sentiment
 
 from .database import engine, SessionLocal, Base
 from .models import User, Chat, Message
 from .schemas import (
-    UserCreate, UserResponse,
+    ReviewIn, ReviewOut, UserCreate, UserResponse,
     ChatResponse,
     MessageInput, MessageResponse,
     AskRequest, AskResponse
@@ -25,6 +27,7 @@ from .query_handle import QueryPipeline
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
+from pydantic_settings import BaseSettings
 
 # ─── locate backend folder and data/index paths ─────────────────────────────────
 BACKEND_DIR = Path(__file__).resolve().parent
@@ -288,3 +291,116 @@ def send_message(
 #         raise HTTPException(500, detail="Malformed response from answer service")
 
 #     return AskResponse(answer=data["answer"])
+
+
+class Settings(BaseSettings):
+    DATA_FILE: str = "core/data/bank_reviews.json"
+
+settings = Settings()
+
+
+# Global in-memory list of reviews
+REVIEWS: List[ReviewOut] = []
+
+
+def load_and_classify_reviews():
+    """
+    1. Load the JSON file from disk
+    2. For each review (ReviewIn), compute sentiment
+    3. Build a ReviewOut with an 'id' and 'sentiment'
+    4. Append to the global REVIEWS list
+    """
+    global REVIEWS
+    REVIEWS.clear()
+
+     # 1) Determine the directory where this file (app.py) resides:
+    base_dir = Path(__file__).resolve().parent  
+    #    If __file__ is ".../nlp_project/backend/app.py", then base_dir == ".../nlp_project/backend"
+
+    # 2) Build the absolute path to "core/data/bank_reviews.json":
+    data_path = base_dir / "core" / "data" / "bank_reviews.json"
+
+    if not data_path.exists():
+        raise FileNotFoundError(f"Cannot find data file at {data_path}")
+
+    with open(data_path, "r", encoding="utf-8") as f:
+        raw_list = json.load(f)  # a list of dicts matching ReviewIn
+
+    for idx, entry in enumerate(raw_list):
+        try:
+            r = ReviewIn(**entry)
+        except Exception as e:
+            # Skip invalid entries (or you could log them)
+            continue
+
+        sentiment_label = classify_sentiment(r.review)
+        review_out = ReviewOut(
+            id=idx,
+            reviewer=r.reviewer,
+            stars=r.stars,
+            since=r.since,
+            review=r.review,
+            location=r.location,
+            source=r.source,
+            sentiment=sentiment_label.value
+        )
+        REVIEWS.append(review_out)
+
+
+@app.on_event("startup")
+async def on_startup():
+    """
+    When the app starts, load & classify all reviews.
+    """
+    load_and_classify_reviews()
+
+
+@app.get("/reviews", response_model=List[ReviewOut])
+def get_reviews(
+    stars: Optional[int] = Query(None, ge=1, le=5),
+    sentiment: Optional[SentimentEnum] = Query(None),
+    reviewer: Optional[str] = Query(None),
+    location: Optional[str] = Query(None),
+    source: Optional[str] = Query(None),
+    since: Optional[int] = Query(None, ge=0),
+):
+    """
+    Return all reviews, optionally filtered by:
+      - stars (exact integer 1–5)
+      - sentiment (Positive | Neutral | Negative)
+      - reviewer (exact string match)
+      - location (exact string match)
+      - source (exact string match)
+      - since (exact integer match)
+    """
+    results = REVIEWS
+
+    if stars is not None:
+        results = [r for r in results if r.stars == stars]
+
+    if sentiment is not None:
+        results = [r for r in results if r.sentiment == sentiment.value]
+
+    if reviewer is not None:
+        results = [r for r in results if r.reviewer == reviewer]
+
+    if location is not None:
+        results = [r for r in results if r.location == location]
+
+    if source is not None:
+        results = [r for r in results if r.source == source]
+
+    if since is not None:
+        results = [r for r in results if r.since == since]
+
+    return results
+
+
+@app.get("/reviews/{review_id}", response_model=ReviewOut)
+def get_review_by_id(review_id: int):
+    """
+    Return a single review by its numeric index (`id`).
+    """
+    if review_id < 0 or review_id >= len(REVIEWS):
+        raise HTTPException(status_code=404, detail="Review not found")
+    return REVIEWS[review_id]

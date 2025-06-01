@@ -31,3 +31,4 @@ class Message(Base):
     timestamp = Column(DateTime, nullable=False)
 
     chat = relationship("Chat", back_populates="messages")
+
