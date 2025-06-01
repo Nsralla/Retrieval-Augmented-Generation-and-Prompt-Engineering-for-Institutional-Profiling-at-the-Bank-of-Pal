@@ -5,58 +5,56 @@ import { useParams, Link } from 'react-router-dom';
 import Navbar from '../../components/custom/navbar';
 import { useTheme } from '../../context/ThemeContext';
 import { motion } from 'framer-motion';
-import reviewsDataRaw from '../../data/bank_reviews.json';
+import axios from 'axios';
 
 interface Review {
+  id: number;
   review: string;
   stars: number;
   reviewer: string;
   source: string;
   location: string;
+  sentiment: "Positive" | "Neutral" | "Negative";
 }
 
 const ReviewsByRating: React.FC = () => {
-  // URL-based filter for stars (rating)
+  // 1. URL-based filter for stars (rating)
   const { star } = useParams<{ star: string }>();
-  const initialRating = parseInt(star || '0', 10);
+  const initialStars = parseInt(star || '0', 10);
 
-  // Local state for all filters
-  const [filterStars, setFilterStars] = useState<number>(isNaN(initialRating) ? 0 : initialRating);
-  const [filterReviewer, setFilterReviewer] = useState<string>('All');
-  const [filterLocation, setFilterLocation] = useState<string>('All');
-  const [filterSource, setFilterSource] = useState<string>('All');
+  // 2. Local state for filters (stars + sentiment)
+  const [filterStars, setFilterStars] = useState<number>(isNaN(initialStars) ? 0 : initialStars);
+  const [filterSentiment, setFilterSentiment] = useState<string>("All");
 
-  // State to hold filtered reviews
+  // 3. State to hold filtered reviews
   const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
-
   const { isDarkMode } = useTheme();
 
-  // Extract unique values for dropdown options
-  const allReviews = reviewsDataRaw as Review[];
-  const uniqueStars = Array.from(new Set(allReviews.map((r) => r.stars))).sort((a, b) => a - b);
-  const uniqueReviewers = Array.from(new Set(allReviews.map((r) => r.reviewer))).sort();
-  const uniqueLocations = Array.from(new Set(allReviews.map((r) => r.location))).sort();
-  const uniqueSources = Array.from(new Set(allReviews.map((r) => r.source))).sort();
-
-  // Whenever any filter changes, recompute filteredReviews
-  useEffect(() => {
-    let matches = allReviews;
-
+  // 4. Utility to build the query string
+  const buildQuery = () => {
+    const params: string[] = [];
     if (filterStars > 0) {
-      matches = matches.filter((r) => r.stars === filterStars);
+      params.push(`stars=${filterStars}`);
     }
-    if (filterReviewer !== 'All') {
-      matches = matches.filter((r) => r.reviewer === filterReviewer);
+    if (filterSentiment !== "All") {
+      params.push(`sentiment=${filterSentiment}`);
     }
-    if (filterLocation !== 'All') {
-      matches = matches.filter((r) => r.location === filterLocation);
-    }
-    if (filterSource !== 'All') {
-      matches = matches.filter((r) => r.source === filterSource);
-    }
+    const q = params.join("&");
+    return q ? `?${q}` : "";
+  };
 
-    setFilteredReviews(matches);
-  }, [filterStars, filterReviewer, filterLocation, filterSource, allReviews]);
+  // 5. Whenever filters change, fetch from the backend
+  useEffect(() => {
+    const query = buildQuery();
+    axios
+      .get<Review[]>(`http://localhost:8000/reviews${query}`)
+      .then((resp) => {
+        setFilteredReviews(resp.data);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch reviews:", err);
+      });
+  }, [filterStars, filterSentiment]);
 
   return (
     <div className={`${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-900'} min-h-screen flex flex-col font-sans`}>
@@ -76,7 +74,7 @@ const ReviewsByRating: React.FC = () => {
             >
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.96a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.357 2.44a1 1 0 00-.364 1.118l1.287 3.959c.3.921-.755 1.688-1.54 1.118l-3.356-2.44a1 1 0 00-1.175 0l-3.357 2.44c-.785.57-1.84-.197-1.54-1.118l1.286-3.959a1 1 0 00-.364-1.118L2.075 9.387c-.783-.57-.38-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.96z" />
             </svg>
-            <span className="text-xl font-medium">التصفية حسب التقييم</span>
+            <span className="text-xl font-medium">التصفية حسب التقييم والسمات</span>
           </h2>
 
           <Link
@@ -93,7 +91,7 @@ const ReviewsByRating: React.FC = () => {
         </div>
       </header>
 
-      {/* Filter Controls */}
+      {/* Filters: Stars + Sentiment */}
       <section className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 py-6">
         <div className="max-w-5xl mx-auto flex flex-wrap gap-4 px-6">
           {/* Stars Filter */}
@@ -108,63 +106,27 @@ const ReviewsByRating: React.FC = () => {
               `}
             >
               <option value={0}>الكل</option>
-              {uniqueStars.map((s) => (
+              {[1, 2, 3, 4, 5].map((s) => (
                 <option key={s} value={s}>{s} نجوم</option>
               ))}
             </select>
           </div>
 
-          {/* Reviewer Filter */}
+          {/* Sentiment Filter */}
           <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">المراجع</label>
+            <label className="text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">الاتجاه (Sentiment)</label>
             <select
-              value={filterReviewer}
-              onChange={(e) => setFilterReviewer(e.target.value)}
+              value={filterSentiment}
+              onChange={(e) => setFilterSentiment(e.target.value)}
               className={`
                 px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
                 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100
               `}
             >
               <option value="All">الكل</option>
-              {uniqueReviewers.map((rev) => (
-                <option key={rev} value={rev}>{rev}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Location Filter */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">الموقع</label>
-            <select
-              value={filterLocation}
-              onChange={(e) => setFilterLocation(e.target.value)}
-              className={`
-                px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
-                focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100
-              `}
-            >
-              <option value="All">الكل</option>
-              {uniqueLocations.map((loc) => (
-                <option key={loc} value={loc}>{loc}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Source Filter */}
-          <div className="flex flex-col">
-            <label className="text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">المصدر</label>
-            <select
-              value={filterSource}
-              onChange={(e) => setFilterSource(e.target.value)}
-              className={`
-                px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600
-                focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100
-              `}
-            >
-              <option value="All">الكل</option>
-              {uniqueSources.map((src) => (
-                <option key={src} value={src}>{src}</option>
-              ))}
+              <option value="Positive">إيجابي</option>
+              <option value="Neutral">محايد</option>
+              <option value="Negative">سلبي</option>
             </select>
           </div>
         </div>
@@ -195,7 +157,7 @@ const ReviewsByRating: React.FC = () => {
                     `}
                   >
                     {/* Star and Rating */}
-                    <div className="flex items-center mb-4">
+                    <div className="flex items-center mb-3">
                       <svg
                         className="w-6 h-6 text-blue-500 mr-2"
                         fill="currentColor"
@@ -208,23 +170,39 @@ const ReviewsByRating: React.FC = () => {
                     </div>
 
                     {/* Review Text */}
-                    <p className="mb-6 leading-relaxed text-base">
+                    <p className="mb-4 leading-relaxed text-base">
                       {rev.review}
                     </p>
 
-                    {/* Reviewer & Location */}
-                    <footer className="flex flex-col space-y-1 text-sm text-gray-500">
+                    {/* Reviewer & Location & Source */}
+                    <div className="flex flex-col space-y-1 text-sm text-gray-500">
                       <span>المراجع: {rev.reviewer}</span>
                       <span>الموقع: {rev.location}</span>
                       <span>المصدر: {rev.source}</span>
-                    </footer>
+                    </div>
+
+                    {/* Sentiment Badge (colored dot + label) */}
+                    <div className="absolute top-4 left-4 flex items-center space-x-1">
+                      {rev.sentiment === "Positive" && (
+                        <span className="inline-block w-3 h-3 bg-green-500 rounded-full" aria-hidden="true" />
+                      )}
+                      {rev.sentiment === "Neutral" && (
+                        <span className="inline-block w-3 h-3 bg-gray-400 rounded-full" aria-hidden="true" />
+                      )}
+                      {rev.sentiment === "Negative" && (
+                        <span className="inline-block w-3 h-3 bg-red-500 rounded-full" aria-hidden="true" />
+                      )}
+                      <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                        {rev.sentiment}
+                      </span>
+                    </div>
 
                     {/* Overlay Rating Badge */}
                     <div
                       className={`
                         absolute top-4 right-4 flex items-center justify-center
                         ${isDarkMode ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800'}
-                        w-9 h-9 rounded-full text-sm font-semibold
+                        w-8 h-8 rounded-full text-sm font-semibold
                       `}
                       aria-label={`تقييم ${rev.stars}`}
                     >
