@@ -7,6 +7,8 @@ import { useTheme } from '../../context/ThemeContext';
 import starsDataRaw from '../../data/stars.json';
 import reviewsDataRaw from '../../data/bank_reviews.json';
 import hero_image from '../../assets/hero.jpeg';
+import { motion } from 'framer-motion';
+
 import {
   ResponsiveContainer,
   BarChart,
@@ -88,39 +90,47 @@ const ReviewsSummary: React.FC = () => {
       {/* Navbar */}
       <Navbar />
 
-      {/* Hero image with overlay */}
-      <section className="relative w-full h-screen">
-        <img
-          src={hero_image}
-          alt="Bank of Palestine Headquarters"
-          className="object-cover w-full h-full"
-        />
+     <motion.section
+      className="relative w-full h-screen"
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { duration: 1 } },
+      }}
+    >
+      {/* Hero image */}
+      <motion.img
+        src={hero_image}
+        alt="Bank of Palestine Headquarters"
+        className="object-cover w-full h-full"
+        initial={{ scale: 1.1, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1, transition: { duration: 1.2, ease: 'easeOut' } }}
+      />
 
-        <div
-          className={`
-            absolute inset-0 
-            flex flex-col items-center justify-center 
-            backdrop-brightness-50
-          `}
+      {/* Overlay with text */}
+      <motion.div
+        className="absolute inset-0 flex flex-col items-center justify-center backdrop-brightness-50"
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1, transition: { delay: 0.8, duration: 0.8, ease: 'easeOut' } }}
+      >
+        <motion.h1
+          className={`text-4xl sm:text-5xl font-bold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-100'}`}
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1, transition: { delay: 1, duration: 0.6, ease: 'easeOut' } }}
         >
-          <h1
-            className={`
-              text-4xl sm:text-5xl font-bold mb-4 
-              ${isDarkMode ? 'text-white' : 'text-gray-100'}
-            `}
-          >
-            Bank of Palestine Reviews
-          </h1>
-          <p
-            className={`
-              text-lg sm:text-xl 
-              ${isDarkMode ? 'text-gray-300' : 'text-gray-200'}
-            `}
-          >
-            Discover Our Branch Ratings
-          </p>
-        </div>
-      </section>
+          Bank of Palestine Reviews
+        </motion.h1>
+        <motion.p
+          className={`text-lg sm:text-xl ${isDarkMode ? 'text-gray-300' : 'text-gray-200'}`}
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1, transition: { delay: 1.2, duration: 0.6, ease: 'easeOut' } }}
+        >
+          Discover Our Branch Ratings
+        </motion.p>
+      </motion.div>
+    </motion.section>
+
 
       {/* Full‐height, full‐width Summary Section */}
       <section
