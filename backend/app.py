@@ -47,35 +47,45 @@ def load_json(path: str):
 
 def chunk_and_embed(
     data: list[dict],
-    chunk_size: int = 1000,
-    chunk_overlap: int = 200,
     index_dir: str = str(INDEX_DIR),
 ):
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        separators=["\n\n","\n",".","، "," "],
-    )
+    """
+    Treat each document as a single “chunk.” Index only those with lang == 'ar'.
+    """
     texts = []
     metadatas = []
+
     for doc in data:
         if doc.get("lang") != "ar":
+            # Skip any non-Arabic documents
             continue
-        chunks = splitter.split_text(doc["content"])
-        for chunk in chunks:
-            texts.append(chunk)
-            metadatas.append({
-                "source": doc.get("url", ""),
-                "lang": doc.get("lang"),
-            })
+
+        # Take the entire document content as one text entry
+        full_content = doc.get("content", "").strip()
+        if not full_content:
+            continue
+
+        texts.append(full_content)
+        metadatas.append({
+            "source": doc.get("url", ""),
+            "lang": doc.get("lang"),
+        })
+
+    # Initialize the same embedder you’ll use at query time
     embedder = HuggingFaceEmbeddings(
         model_name="intfloat/multilingual-e5-base",
         model_kwargs={"device": "cuda" if torch.cuda.is_available() else "cpu"},
     )
+
+    # Build FAISS index from the full-document texts
     vectorstore = FAISS.from_texts(texts, embedding=embedder, metadatas=metadatas)
+
+    # Ensure the index directory exists
     os.makedirs(index_dir, exist_ok=True)
     vectorstore.save_local(index_dir)
-    print(f"Indexed {len(texts)} chunks into FAISS at ./{index_dir}")
+
+    print(f"Indexed {len(texts)} documents into FAISS at ./{index_dir}")
+
 
 # ─── build FAISS index if missing ───────────────────────────────────────────────
 if not INDEX_DIR.is_dir() or not (INDEX_DIR / "index.faiss").exists():
@@ -86,8 +96,10 @@ if not INDEX_DIR.is_dir() or not (INDEX_DIR / "index.faiss").exists():
     else:
         print(f"Warning: JSON file not found at {DATA_PATH}. Skipping FAISS build.")
 
+
 # ─── initialize pipeline ───────────────────────────────────────────────────────
-pipeline = QueryPipeline(index_dir=str(INDEX_DIR), top_k=5)
+# (Assuming QueryPipeline is defined elsewhere to load from INDEX_DIR)
+pipeline = QueryPipeline(index_dir=str(INDEX_DIR))
 
 # ─── FastAPI app setup ────────────────────────────────────────────────────────
 app = FastAPI()
@@ -238,10 +250,11 @@ def send_message(
     resp = requests.post(
         "http://176.119.254.185:7111/answer",
         json={"question": message.user_message, "document": context},
-        timeout=30,
+        timeout=100,
     )
     if resp.status_code != 200:
         raise HTTPException(
+            
             status_code=resp.status_code,
             detail={"error": "Remote answer failed", "info": resp.text},
         )
@@ -262,7 +275,7 @@ def send_message(
     db.refresh(user_msg)
     db.refresh(bot_msg)
 
-    # 5) return both
+    # ) return both
     return [user_msg, bot_msg]
 
 # @app.post("/ask", response_model=AskResponse)
