@@ -10,16 +10,13 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import datetime
-
 from backend.core.sentiment import SentimentEnum, classify_sentiment
-
 from .database import engine, SessionLocal, Base
 from .models import User, Chat, Message
 from .schemas import (
     ReviewIn, ReviewOut, UserCreate, UserResponse,
     ChatResponse,
     MessageInput, MessageResponse,
-    AskRequest, AskResponse
 )
 from .security import hash_password, verify_password
 from .auth import create_access_token, verify_token
@@ -28,7 +25,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from pydantic_settings import BaseSettings
-
+from backend.pipeline import initialize_vector_store, generate_institution_profile
 # ─── locate backend folder and data/index paths ─────────────────────────────────
 BACKEND_DIR = Path(__file__).resolve().parent
 DATA_PATH   = BACKEND_DIR / "scraped_data" / "bop_website_cleaned.json"
@@ -278,33 +275,6 @@ def send_message(
     # ) return both
     return [user_msg, bot_msg]
 
-# @app.post("/ask", response_model=AskResponse)
-# def ask_user(req: AskRequest, current_user: User = Depends(get_current_user)):
-#     context = pipeline.handleQuery(req.question)
-#     if not context:
-#         raise HTTPException(status_code=404, detail="No relevant context found")
-
-    
-#     resp = requests.post(
-#         "http://176.119.254.185:7111/answer",
-#         json={
-#             "question": req.question,
-#             "document": context
-#         },
-#         timeout=10
-#     )
-#     if resp.status_code != 200:
-#         raise HTTPException(
-#             status_code=resp.status_code,
-#             detail={"error": "Remote answer service failed", "info": resp.text}
-#         )
-
-#     data = resp.json()
-#     if "answer" not in data:
-#         raise HTTPException(500, detail="Malformed response from answer service")
-
-#     return AskResponse(answer=data["answer"])
-
 
 class Settings(BaseSettings):
     DATA_FILE: str = "core/data/bank_reviews.json"
@@ -367,6 +337,18 @@ async def on_startup():
     """
     load_and_classify_reviews()
 
+    """
+    Initialize or recreate the FAISS index on startup if needed.
+    """
+    try:
+        created = initialize_vector_store()
+        if created:
+            print("[startup] Created new FAISS index.")
+        else:
+            print("[startup] FAISS index already exists.")
+    except Exception as e:
+        print(f"[startup] Error initializing vector store: {e}")
+
 
 @app.get("/reviews", response_model=List[ReviewOut])
 def get_reviews(
@@ -411,9 +393,23 @@ def get_reviews(
 
 @app.get("/reviews/{review_id}", response_model=ReviewOut)
 def get_review_by_id(review_id: int):
+    
     """
     Return a single review by its numeric index (`id`).
     """
     if review_id < 0 or review_id >= len(REVIEWS):
         raise HTTPException(status_code=404, detail="Review not found")
     return REVIEWS[review_id]
+
+
+@app.get("/institution-profile", summary="Generate BOP institution profile")
+async def get_institution_profile():
+    """
+    Endpoint to generate and return the Bank of Palestine institution profile.
+    """
+    try:
+        profile_text = generate_institution_profile()
+        return {"profile": profile_text}
+    except Exception as e:
+        # Return a 500 error if something goes wrong
+        raise HTTPException(status_code=500, detail=f"Profile generation failed: {e}")

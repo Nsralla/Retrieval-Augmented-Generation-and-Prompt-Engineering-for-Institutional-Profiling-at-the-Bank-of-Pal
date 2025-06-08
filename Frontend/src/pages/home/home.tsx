@@ -58,10 +58,10 @@ const Home: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <Link
-              to="/chat"
+              to="/profile"
               className="inline-block px-6 py-3 bg-blue-800 text-white text-lg rounded-full hover:bg-blue-700 transition"
             >
-              Launch Chatbot
+              Generate Institution Profile
             </Link>
           </motion.div>
           {/* Powered by ChatGPT */}

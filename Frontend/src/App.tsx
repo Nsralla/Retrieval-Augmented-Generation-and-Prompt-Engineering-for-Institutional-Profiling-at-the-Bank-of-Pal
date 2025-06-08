@@ -11,6 +11,7 @@ import NotFound from './pages/NotFound';
 import BranchReviews from './pages/reviews/BranchReviews';
 import BranchRatings from './components/BranchReviews/BranchRatings';
 import ReviewsByRating from './pages/reviews/ReviewsByRating';
+import Profile from './pages/profile/profile'; // Add this import
 
 function App() {
   return (
@@ -20,17 +21,17 @@ function App() {
           <Routes>
             {/* now matches /chat/123 */}
             <Route path="/chat/:chatId" element={<Chat />} />
-            {/* optionally still allow /chat to redirect or show default */}
-            {/* <Route path="/chat" element={<Chat />} /> */}
-
             <Route path="/" element={<Home />} />
+            
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/reviews" element={<ReviewsSummary/>}/>
             <Route path="/reviews/:branchName" element={<BranchReviews />} />
             <Route path="/branch-ratings" element={<BranchRatings />} />
             <Route path="/reviews/rating/:star" element={<ReviewsByRating />} />
+            <Route path="/profile" element={<Profile />} /> {/* Add this route */}
             <Route path="*" element={<NotFound />} />
+            
           </Routes>
         </div>
       </Router>
