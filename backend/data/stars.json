@@ -1,0 +1,166 @@
+
+[
+  {
+    "location": "شارع الكلية الأهلية",
+    "star": 3.7,
+    "image": "../../public/images/hero.jpeg"
+  },
+  {
+    "location": "شارع ركب",
+    "star": 3.8,
+    "image": "../../public/images/rokab.jpg"
+  },
+  {
+    "location": "شارع الإرسال",
+    "star": 3.9,
+    "image": "../../public/images/ersal.jpg"
+  },
+  {
+    "location": "عين عريك",
+    "star": 3.4,
+    "image": "../../public/images/areek.jpg"
+  },
+  {
+    "location": "جامعة بيرزيت",
+    "star": 3.5,
+    "image": "../../public/images/berzeit.jpg"
+  },
+  {
+    "location": "سلواد",
+    "star": 3.3,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "ترمسعيا",
+    "star": 4.0,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "أريحا",
+    "star": 3.9,
+      "image":"../../public/images/areha.JPG"
+
+  },
+  {
+    "location": "سلفيت شارع القسام",
+    "star": 3.6,
+    "image": "../../public/images/selfetqasam.jpg"
+  },
+  {
+    "location": "نابلس شارع حوارة",
+    "star": 3.8,
+    "image": "../../public/images/nableshawara.jpg"
+  },
+  {
+    "location": "نابلس شارع سفيان",
+    "star": 3.6,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "سلفيت شارع البلدية",
+    "star": 3.9,
+    "image": "../../public/images/salfetbaladia.jpg"
+  },
+  {
+    "location": "بيت جالا",
+    "star": 3.9,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "بيت لقيا",
+    "star": 3.8,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "نابلس شارع طولكرم",
+    "star": 3.3,
+    "image": "../../public/images/nablestolkarem.jpg"
+
+  },
+  {
+    "location": "قلقيليا عزون",
+    "star": 4.2,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "طول كرم شارع نابلس",
+    "star": 4.2,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "قلقيليا المعبر",
+    "star": 3.6,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "الخليل الشارع الجديد",
+    "star": 3.4,
+    "image": "../../public/images/hebronnew.JPG"
+  },
+  {
+    "location": "طول كرم شارع المعبر",
+    "star": 4.3,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "الخليل يطا",
+    "star": 3.4,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "جنين يعبد",
+    "star": 4.3,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "الخليل دورا",
+    "star": 3.9,
+    "image": "../../public/images/dora.jpg"
+  },
+  {
+    "location": "الخليل ترقوميا",
+    "star": 3.6,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "غزة الرمال",
+    "star": 4.2,
+    "image": "../../public/images/remal.jpg"
+  },
+  {
+    "location": "جنين ميلثون",
+    "star": 3.8,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "غزة الجلاء",
+    "star": 4.8,
+    "image": "../../public/images/jalaa.jpg"
+  },
+  {
+    "location": "شارع رابا، Jenin",
+    "star": 4.5,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "نابلس شارع البلدية",
+    "star": 4.3,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "Haifa Street, Jenin",
+    "star": 3.2,
+    "image": "../../public/images/default.png"
+  },
+  {
+    "location": "Jenin 2010441",
+    "star": 3.7,
+    "image": "../../public/images/default.png"
+  },
+
+  {
+  "location": "Hebron Rd, Bethlehem",
+  "star":4,
+  "image":"../../public/images/betlehem.jpg"
+}
+]
