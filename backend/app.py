@@ -30,6 +30,7 @@ from backend.pipeline import initialize_vector_store, generate_institution_profi
 BACKEND_DIR = Path(__file__).resolve().parent
 DATA_PATH   = BACKEND_DIR / "scraped_data" / "bop_website_cleaned.json"
 INDEX_DIR   = BACKEND_DIR / "faiss_index"
+BANK_PROFILE_DATA_PATH = BACKEND_DIR / "data" / "bank_profile_data.json"
 
 # Create all tables
 Base.metadata.create_all(bind=engine)
@@ -135,6 +136,30 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     return user
 
 # --- Auth routes ---
+
+
+@app.get("/data/bank_profile_data.json", summary="Get structured bank profile data")
+async def get_bank_profile_data():
+    """
+    Endpoint to serve the structured bank profile data.
+    Returns the contents of bank_profile_data.json file.
+    """
+    try:
+        if not os.path.exists(BANK_PROFILE_DATA_PATH):
+            return JSONResponse(
+                status_code=404,
+                content={"error": "Bank profile data file not found"}
+            )
+        
+        with open(BANK_PROFILE_DATA_PATH, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            
+        return data
+    except Exception as e:
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Failed to load bank profile data: {str(e)}"}
+        )
 @app.post("/signup", response_model=UserResponse, status_code=201)
 def signup(new_user: UserCreate, db: Session = Depends(get_db)):
     if db.query(User).filter(User.email == new_user.email).first():

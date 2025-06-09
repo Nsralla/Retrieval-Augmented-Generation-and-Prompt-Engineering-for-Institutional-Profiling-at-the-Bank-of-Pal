@@ -3,6 +3,6 @@ scraped_data
 .vscode
 .venv
 faiss_index
+faiss_index2
 env
 __pycache__
-core/data
