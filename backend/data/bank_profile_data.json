@@ -1,18 +1,18 @@
 {
-  "founders": ["he founders of the Bank of Palestine (BoP) were the Late Haj Hashem Atta Shawa and the Late Dr. Hani Shawa. Haj Hashem Atta Shawa initially founded the bank with the aim of supporting Palestinian farmers and orchard owners, particularly in the Gaza Strip. Dr. Hani Shawa, who later became Chairman and General Manager from 2002-2007, continued to develop the bank by adopting an expansion strategy and embracing technological advancements. "],
+  "founders": ["مؤسسو بنك فلسطين هم المرحوم الحاج هاشم عطا الشوا والمرحوم الدكتور هاني الشوا. قام الحاج هاشم عطا الشوا في البداية بتأسيس البنك بهدف دعم المزارعين الفلسطينيين وأصحاب البساتين، خاصة في قطاع غزة. واصل الدكتور هاني الشوا، الذي أصبح فيما بعد رئيس مجلس الإدارة والمدير العام من 2002-2007، تطوير البنك من خلال تبني استراتيجية التوسع واحتضان التطورات التكنولوجية."],
 "key_personnel": [
-  "Mr. Mahmoud Shawa - Chief Executive Officer",
-  "Mr. Saker Nammari - Chief Financial Officer",
-  "Mr. Yazan Al Masri - Chief Treasury Officer",
-  "Mr. Salim Hodali - Chief Retail Banking Officer",
-  "Mrs. Amal Massis - Chief Risk Officer",
-  "Mr. Naser Bakier - Chief Business Banking Officer",
-  "Mrs. Randa Musa - Chief Human Resources Officer",
-  "Mr. Najeeb Yaser - Chief Audit Office",
-  "Mr. Musa Shamieh - Chief Operations Officer",
-  "Mr. Kamel Husseini - Chief Strategic Relations & Engagements Officer",
-  "Mr. Hanna Sahhar - Chief Credit Officer",
-  "Mr. Sulieman Nasr - Chief Compliance & AML/CFT Officer"
+  "السيد محمود شوا - الرئيس التنفيذي",
+  "السيد ساكر النمري - المدير المالي",
+  "السيد يزن المصري - مدير الخزينة",
+  "السيد سليم هدلي - مدير الخدمات المصرفية للأفراد",
+  "السيدة أمل مسيس - مدير المخاطر",
+  "السيد ناصر بكير - مدير الخدمات المصرفية للشركات",
+  "السيدة راندا موسى - مدير الموارد البشرية",
+  "السيد نجيب ياسر - مدير التدقيق",
+  "السيد موسى شامية - مدير العمليات",
+  "السيد كامل حسيني - مدير العلاقات والارتباطات الاستراتيجية",
+  "السيد حنا سحار - مدير الائتمان",
+  "السيد سليمان نصر - مدير الامتثال ومكافحة غسل الأموال وتمويل الإرهاب"
 ],
   "branch_locations": [
     "أريحا (0456)",
@@ -44,36 +44,38 @@
     "نابلس -رفيديا (0484)"
   ],
 "accounts": [
-  "Current Account",
-  "Savings Account",
-  "Baraem Savings Account",
-  "Account for Every Citizen – Primary Account"
+  "الحساب الجاري",
+  "حساب التوفير",
+  "حساب توفير براعم",
+  "حساب لكل مواطن - الحساب الأساسي"
 ],
 "loans": [
-  "Israr Program",
-  "Sustainability plus",
-  "Commercial Mortgage Loan",
-  "Microenterprise Financing: Empowering Women in Rural Areas",
-  "The Jerusalem Projects Loans Program",
-  "Loans for Financing People with Disabilities",
-  "Personal Loans",
-  "Personal Housing Loan",
-  "Students Loans",
-  "Fishermen Loans",
-  "Green Loans",
-  "Mortgage Loans",
-  "Overdraft for Employees"
-],
+  "برنامج إصرار",
+  "استدامة بلس",
+  "قرض الرهن التجاري",
+  "تمويل المشاريع الصغيرة: تمكين المرأة في المناطق الريفية",
+  "برنامج قروض مشاريع القدس",
+  "قروض تمويل الأشخاص ذوي الإعاقة",
+  "القروض الشخصية",
+  "القرض الشخصي للإسكان",
+  "قروض الطلاب",
+  "قروض الصيادين",
+  "القروض الخضراء",
+  "قروض الرهن العقاري",
+  "السحب على المكشوف للموظفين"
+]
+,
 "cards": [
-  "Visa Airport Companion",
-  "Visa Infinite Card",
-  "VISA Signature",
-  "Visa Platinum",
-  "MasterCard Titanium",
-  "Classic Debit Card",
-  "Easy Life Card",
-  "Cash Card"
-],
+  "فيزا إيربورت كومبانيون",
+  "بطاقة فيزا إنفينيت",
+  "فيزا سيجنتشر",
+  "فيزا بلاتينوم",
+  "ماستركارد تيتانيوم",
+  "بطاقة الخصم الكلاسيكية",
+  "بطاقة إيزي لايف",
+  "بطاقة كاش"
+]
+,
   "digital_services": [
     "سهولة أكثر، ومرونة عالية لاستلام المدفوعات الرقمية للمشتريات عبر استخدام البطاقات أو رمز QR أو Apple Pay، حيث يمكن استلام المدفوعات عند عملية البيع باستخدام الأجهزة الذكية (الموبايل)",
     "إمكانية إدارة الحساب من خلال تطبيق بنكي وخدمة الانترنت البنكي",
@@ -100,11 +102,9 @@
     "خدمة الرسائل القصيرة والانترنت البنكي والموبايل البنكي .",
     "الخدمات المصرفية الالكترونية.",
     "خدمات بنكية رقمية شاملة: الإنترنت البنكي الذي يتيح لكم تسديد الفواتير والتحويل بين الحسابات بشكل فوري، وتطبيق بنكي على الموبايل الذي يمكنكم من إنجاز مختلف معاملاتكم البنكية بسرعة وأمان، وخدمة مركز الاتصال.",
-    "e Pay",
     "مع أو بدون توفر إنترنت على الموبايل:",
     "من خلال تطبيق بنكي (يشترط توفر الإنترنت على الموبايل):",
     "e Pay للبطاقة.",
-    "e Pay\".",
     "يمكنكم التحكم باختيار بطاقاتكم المستخدمة بكل سهولة من خلال تطبيق بنكي.",
     "  - مع أو بدون توفر إنترنت على الموبايل:",
     "  - من خلال تطبيق بنكي (يشترط توفر الإنترنت على الموبايل):",
@@ -156,7 +156,6 @@
     "نعم، حيث تتطلب رمز سري وتفعيل مسبق من خلال الانترنت البنكي او تطبيق بنكي",
     "شحن رصيد الموبايل وتسديد الفواتير",
     "من خلال تطبيق بنكي او زيارة الفروع والمكاتب",
-    "150",
     "هل العملات الأجنبية متوفرة عبر خدماتنا البنكية؟",
     "بنك فلسطين | الشيكات البنكية",
     "2,499 شيكل يتم حجز تأمين نقدي بقيمة  1,000 شيكل، وإذا زادت رواتبهم عن 2,500 شيكل لا يتم حجز أي مبلغ، و يتم حجز مبلغ 1,000 شيكل للعميل العادي.",
@@ -167,7 +166,7 @@
 "International Transfers (SWIFT)",
 
 "Local Transfers"],
-  "investment_services": [],
+ 
   "fees": [
     "قروض لسداد رسوم التخرج لخريجي جامعة الأزهر من حملة البكالوريوس",
     "دفع رسوم أو مشتريات وتنفيذ حوالات محلية في ثوانٍ معدودة",
@@ -236,15 +235,16 @@
     "عدم تجاوز نسبة إجمالي الأقساط (50%) من الراتب"
   ],
 "csr_programs": [
-  "Palestine in the Heart",
-  "Zamala Fellowship Program",
-  "The Mobile Pink Clinic",
-  "Diabetes Prevention Awareness Campaign 2020",
-  "Al Bayyara Project",
-  "The Palestinian Museum",
-  "Wajd Program for Sponsoring Orphans"
+  "فلسطين في القلب",
+  "برنامج الزمالة",
+  "العيادة الوردية المتنقلة",
+  "حملة التوعية للوقاية من مرض السكري 2020",
+  "مشروع البيارة",
+  "المتحف الفلسطيني",
+  "برنامج وجد لكفالة الأيتام"
+
 ],
-  "awards": ["Bank of Palestine won many awards on the level of countries in the Middle East including, best bank for digital services provided to customers, best bank for mobile banking services, best mobile banking application for individual customers, best bank in the fields of creativity and innovation, best bank for electronic payments and purchases, best bank for digital services for companies and organizations, best bank for internet cash management, most comprehensive bank for corporate banking services, and the most innovative bank in the fields of technology and banking solutions. Bank of Palestine won many awards on the level of countries in the Middle East including, best bank for digital services provided to customers, best bank for mobile banking services, best mobile banking application for individual customers, best bank in the fields of creativity and innovation, best bank for electronic payments and purchases, best bank for digital services for companies and organizations, best bank for internet cash management, most comprehensive bank for corporate banking services, and the most innovative bank in the fields of technology and banking solutions. "],
+  "awards": ["حاز بنك فلسطين على العديد من الجوائز على مستوى دول الشرق الأوسط من بينها، أفضل بنك للخدمات الرقمية المقدمة للعملاء، أفضل بنك لخدمات الصيرفة عبر الموبايل، أفضل تطبيق مصرفي عبر الموبايل للعملاء الأفراد، أفضل بنك في مجالات الإبداع والابتكار، أفضل بنك للمدفوعات والمشتريات الإلكترونية، أفضل بنك للخدمات الرقمية للشركات والمؤسسات، أفضل بنك لإدارة النقد عبر الإنترنت، أكثر بنك شمولية لخدمات الشركات المصرفية، وأكثر بنك مبتكر في مجالات التكنولوجيا والحلول المصرفية. حاز بنك فلسطين على العديد من الجوائز على مستوى دول الشرق الأوسط من بينها، أفضل بنك للخدمات الرقمية المقدمة للعملاء، أفضل بنك لخدمات الصيرفة عبر الموبايل، أفضل تطبيق مصرفي عبر الموبايل للعملاء الأفراد، أفضل بنك في مجالات الإبداع والابتكار، أفضل بنك للمدفوعات والمشتريات الإلكترونية، أفضل بنك للخدمات الرقمية للشركات والمؤسسات، أفضل بنك لإدارة النقد عبر الإنترنت، أكثر بنك شمولية لخدمات الشركات المصرفية، وأكثر بنك مبتكر في مجالات التكنولوجيا والحلول المصرفية."],
   "partners": [
     "سلطة النقد الفلسطينية"
   ],

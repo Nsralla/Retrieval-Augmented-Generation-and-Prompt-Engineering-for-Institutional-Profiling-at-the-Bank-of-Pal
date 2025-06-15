@@ -353,6 +353,13 @@ def load_and_classify_reviews():
             sentiment=sentiment_label.value
         )
         REVIEWS.append(review_out)
+    # print number of positive, neutral, negative reviews
+    positive_count = sum(1 for r in REVIEWS if r.sentiment == SentimentEnum.POSITIVE.value)
+    neutral_count = sum(1 for r in REVIEWS if r.sentiment == SentimentEnum.NEUTRAL.value)
+    negative_count = sum(1 for r in REVIEWS if r.sentiment == SentimentEnum.NEGATIVE.value)
+    print("/////////////////////////////////////////////")
+    print(f"Loaded {len(REVIEWS)} reviews: {positive_count} positive, {neutral_count} neutral, {negative_count} negative.")
+        
 
 
 @app.on_event("startup")

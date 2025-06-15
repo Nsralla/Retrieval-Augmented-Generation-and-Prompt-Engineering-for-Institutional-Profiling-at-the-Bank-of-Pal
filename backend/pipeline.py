@@ -261,29 +261,31 @@ def generate_prompt(query):
             context_text = "Unable to retrieve context information."
         
         return f"""
-Build a profile for the institution based on the following:
-Institution Description Chunks:
+اكتب نبذة تعريفية شاملة عن المؤسسة بناءً على المعلومات التالية:
+
+معلومات وصفية عن المؤسسة:
 {context_text}
 
-Reviews Summary:
+ملخص التقييمات:
 {top_reviews_text}
 
-Branch Ratings:
+تقييمات الفروع:
 {rating_summary_text}
 
-Branches:
+الفروع:
 {branch_names_text}
 
-Generate a structured profile including:
-- General Description
-- Public Perception (from reviews)
-- List of branches 
-- Branch Ratings (IMPORTANT: You must include ALL branch ratings listed above)
-- Strengths and Weaknesses
-- Services (if found)
-- Any recent updates
+قم بإنشاء ملف تعريفي منظم يتضمن العناوين التالية باللغة العربية:
+- نظرة عامة
+- انطباع العملاء (من التقييمات)
+- قائمة الفروع 
+- تقييمات الفروع (هام: يجب تضمين جميع تقييمات الفروع المذكورة أعلاه)
+- نقاط القوة
+- نقاط الضعف
+- الخدمات المقدمة (إن وجدت)
+- التحديثات الأخيرة
 
-Your response MUST include a dedicated "Branch Ratings" section with all the ratings provided.
+يجب أن تكون إجابتك باللغة العربية بالكامل، وأن تتضمن قسماً خاصاً بعنوان "تقييمات الفروع" يحتوي على جميع التقييمات المذكورة.
 """
     except Exception as e:
         print(f"Error generating prompt: {e}")
@@ -305,9 +307,9 @@ llm = ChatHuggingFace(llm=endpoint)
 # Update the generate_institution_profile function to verify ratings are included
 def generate_institution_profile():
     try:
-        prompt = generate_prompt("Give a full profile of the Bank of Palestine.")
+        prompt = generate_prompt("قدم ملفاً تعريفياً كاملاً عن بنك فلسطين")
         messages = [
-            SystemMessage(content="You are an assistant that builds institutional profiles. You must include ALL branch ratings in your response."),
+            SystemMessage(content="أنت مساعد متخصص في بناء ملفات تعريفية للمؤسسات المالية. اكتب إجابتك باللغة العربية فقط. يجب عليك تضمين جميع تقييمات الفروع في ردك."),
             HumanMessage(content=prompt)
         ]
         
@@ -330,10 +332,10 @@ def generate_institution_profile():
         
         # If ratings aren't in the response, add them
         if not any(rating in response for rating in rating_summary) and rating_summary:
-            rating_section = "\n\n## Branch Ratings\n" + "\n".join(rating_summary)
-            
-            # Add the ratings section if it doesn't exist
-            if "Branch Ratings" not in response:
+            rating_section = "\n\n## تقييمات الفروع\n" + "\n".join(rating_summary)
+        
+        # Add the ratings section if it doesn't exist
+            if "Branch Ratings" not in response and "تقييمات الفروع" not in response:
                 response += rating_section
         print("////////////")
         print(response)
