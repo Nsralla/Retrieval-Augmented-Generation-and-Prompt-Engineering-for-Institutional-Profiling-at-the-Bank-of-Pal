@@ -120,11 +120,7 @@ pip install websockets
 python test.py
 ```
 
-## Credits
 
-This project was built by:
-- [Leon Binder](https://github.com/LeonBinder)
-- [Christoph Handschuh](https://github.com/ChristophHandschuh)
 
 Some code components were inspired by and adapted from [Vercel's AI Chatbot](https://github.com/vercel/ai-chatbot).
 
